@@ -81,75 +81,35 @@ void CChams::apply(IMatRenderContext* oriContext, const DrawModelState_t &oriSta
             if (oriPInfo.pModel) {
                 std::string szModelName = Interfaces::ModelInfo()->GetModelName(oriPInfo.pModel);
                 if(INIGET_BOOL("Chams", "players")) {
-                    if(INIGET_BOOL("Chams", "all")) {
-                        if (szModelName.find("models/player/") != std::string::npos)
+                    if (szModelName.find("models/player/") != std::string::npos)
+                    {
+                        C_CSPlayer* pModelPlayer = (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(oriPInfo.entity_index);
+                        C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
+                       
+                        if (pModelPlayer && pModelPlayer->IsValidLivePlayer() && LocalPlayer)
                         {
-                            C_CSPlayer* pModelPlayer = (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(oriPInfo.entity_index);
-                            if (pModelPlayer && pModelPlayer->IsValidLivePlayer())
-                            {
+                            if(
+                               (INIGET_BOOL("Chams", "allies") && pModelPlayer->GetTeamNum() == LocalPlayer->GetTeamNum()) ||
+                               (INIGET_BOOL("Chams", "enemies") && pModelPlayer->GetTeamNum() != LocalPlayer->GetTeamNum())
+                               ) {
+                                Color ChamsVisibleColor = Color(0, 0, 0, 0);
+                                Color ChamsColor = Color(0, 0, 0, 0);
                                 if (pModelPlayer->GetTeamNum() == EntityTeam::TEAM_T)
                                 {
-                                    if(INIGET_BOOL("Chams", "wallhack")) {
-                                        ForceMaterial(visible_tex, INIGET_COLOR("Colors", "color_t"), pModelPlayer->GetImmune());
-                                        Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                    }
-
-                                    ForceMaterial(hidden_tex, INIGET_COLOR("Colors", "color_t_visible"), pModelPlayer->GetImmune());
-                                    Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-
+                                    ChamsColor = INIGET_COLOR("Colors", "color_t");
+                                    ChamsVisibleColor = INIGET_COLOR("Colors", "color_t_visible");
                                 }
                                 else if (pModelPlayer->GetTeamNum() == EntityTeam::TEAM_CT)
                                 {
-                                    if(INIGET_BOOL("Chams", "wallhack")) {
-                                        ForceMaterial(visible_tex, INIGET_COLOR("Colors", "color_ct"), pModelPlayer->GetImmune());
-                                        Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                    }
-
-                                    ForceMaterial(hidden_tex, INIGET_COLOR("Colors", "color_ct_visible"), pModelPlayer->GetImmune());
+                                    ChamsColor = INIGET_COLOR("Colors", "color_ct");
+                                    ChamsVisibleColor = INIGET_COLOR("Colors", "color_ct_visible");
+                                }
+                                if(INIGET_BOOL("Chams", "wallhack")) {
+                                    ForceMaterial(visible_tex, ChamsColor, pModelPlayer->GetImmune());
                                     Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
                                 }
-                            }
-                        }
-                    }
-                    if(INIGET_BOOL("Chams", "allies")) {
-                        if (szModelName.find("models/player/") != std::string::npos)
-                        {
-                            C_CSPlayer* pModelPlayer = (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(oriPInfo.entity_index);
-                            C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
-                        
-                            if (pModelPlayer && pModelPlayer->IsValidLivePlayer())
-                            {
-                                if (pModelPlayer->GetTeamNum() == LocalPlayer->GetTeamNum())
-                                {
-                                    if(INIGET_BOOL("Chams", "wallhack")) {
-                                        ForceMaterial(visible_tex, INIGET_COLOR("Colors", "color_allies"), pModelPlayer->GetImmune());
-                                        Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                    }
-                                
-                                    ForceMaterial(hidden_tex, INIGET_COLOR("Colors", "color_allies_visible"), pModelPlayer->GetImmune());
-                                    Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                }
-                            }
-                        }
-                    }
-                    if(INIGET_BOOL("Chams", "enemies")) {
-                        if (szModelName.find("models/player/") != std::string::npos)
-                        {
-                            C_CSPlayer* pModelPlayer = (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(oriPInfo.entity_index);
-                            C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
-                        
-                            if (pModelPlayer && pModelPlayer->IsValidLivePlayer())
-                            {
-                                if (pModelPlayer->GetTeamNum() != LocalPlayer->GetTeamNum())
-                                {
-                                    if(INIGET_BOOL("Chams", "wallhack")) {
-                                        ForceMaterial(visible_tex, INIGET_COLOR("Colors", "color_enemies"), pModelPlayer->GetImmune());
-                                        Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                    }
-                                
-                                    ForceMaterial(hidden_tex, INIGET_COLOR("Colors", "color_enemies_visible"), pModelPlayer->GetImmune());
-                                    Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
-                                }
+                                ForceMaterial(hidden_tex, ChamsVisibleColor, pModelPlayer->GetImmune());
+                                Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
                             }
                         }
                     }
@@ -157,7 +117,6 @@ void CChams::apply(IMatRenderContext* oriContext, const DrawModelState_t &oriSta
             }
         }
     }
-
     Interfaces::ModelRender()->DrawModelExecute(oriContext, oriState, oriPInfo, oriPCustomBoneToWorld);
     Interfaces::ModelRender()->ForcedMaterialOverride(nullptr);
 }
