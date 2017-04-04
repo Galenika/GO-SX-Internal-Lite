@@ -40,6 +40,7 @@ namespace HookManager
     bool HCreateMove (void* thisptr, float sample_input_frametime, CUserCmd* pCmd);
      int HINKeyEvent (void* thisptr, int eventcode, int keynum, const char* currentbinding);
     bool HFireEventClientSide(IGameEventManager2* thisptr, IGameEvent* event);
+    void HSequenceProxyFn(const CRecvProxyData *pData, void *pStruct, void *pOut);
 };
 
 #endif // !hooks_h

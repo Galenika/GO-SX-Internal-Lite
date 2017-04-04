@@ -26,7 +26,7 @@ public:
 
     template<typename type>
     type GetSetting(const char* section, const char* key, bool menu = false) {
-        type value;
+        type value = NULL;
         if (typeid(type) == typeid(float)) {
             value = (float)ini.GetDoubleValue(section, key);
         } else if (typeid(type) == typeid(bool)) {

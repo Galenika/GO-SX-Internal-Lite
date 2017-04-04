@@ -20,6 +20,31 @@ enum class SendPropType
 class RecvTable;
 class RecvProp;
 
+struct DVariant
+{
+    union
+    {
+    float m_Float;
+    long m_Int;
+    char *m_pString;
+    void *m_pData;
+    float m_Vector[3];
+    int64_t m_Int64;
+    };
+
+    int m_Type;
+};
+
+struct CRecvProxyData
+{
+    const RecvProp* m_pRecvProp;
+    DVariant m_Value;
+    int m_iElement;
+    int m_ObjectID;
+};
+
+typedef void (*RecvVarProxyFn) (const CRecvProxyData *pData, void *pStruct, void *pOut);
+
 class RecvProp
 {
 public:
@@ -32,7 +57,7 @@ public:
     const void*              m_pExtraData;
     RecvProp*                m_pArrayProp;
     void*                    m_ArrayLengthProxy;
-    void*                    m_ProxyFn;
+    RecvVarProxyFn           m_ProxyFn;
     void*                    m_DataTableProxyFn;
     RecvTable*               m_pDataTable;
     int                      m_Offset;

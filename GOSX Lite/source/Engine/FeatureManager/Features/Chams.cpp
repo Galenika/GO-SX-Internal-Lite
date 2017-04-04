@@ -32,7 +32,7 @@ void CChams::AddMaterial(std::string filename, std::string type, std::string tex
 }
 
 IMaterial* CChams::CreateMaterial(bool ignorez, bool flat, bool nofog, bool model, bool nocull, bool halflambert, bool gluelook) {
-    IMaterial* createdMaterial;
+    IMaterial* createdMaterial = nullptr;
 
     if(gluelook) {
         if (ignorez)

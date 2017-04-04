@@ -9,7 +9,7 @@
 #ifndef weapons_hpp
 #define weapons_hpp
 
-#include "Common.h"
+#include "Engine/common.h"
 
 class CWeaponManager
 {

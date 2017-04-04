@@ -1,10 +1,10 @@
-//
-//  nvmngr.hpp
-//  GOSX Pro
-//
-//  Created by Andre Kalisch on 15.02.17.
-//  Copyright © 2017 Andre Kalisch. All rights reserved.
-//
+    //
+    //  nvmngr.hpp
+    //  GOSX Pro
+    //
+    //  Created by Andre Kalisch on 15.02.17.
+    //  Copyright © 2017 Andre Kalisch. All rights reserved.
+    //
 
 #ifndef nvmngr_h
 #define nvmngr_h
@@ -24,18 +24,18 @@ struct NetvarTable
     TableMap  m_ChildTables;
     PropMap   m_ChildProps;
     uint32_t  m_uOffset = 0;
-    
+
     bool is_empty()
     {
-        return m_ChildTables.size() == 0 && m_ChildProps.size() == 0;
+    return m_ChildTables.size() == 0 && m_ChildProps.size() == 0;
     }
     void insert_table(std::string&& name, std::unique_ptr<NetvarTable>&& pTable)
     {
-        m_ChildTables.emplace(name, std::move(pTable));
+    m_ChildTables.emplace(name, std::move(pTable));
     }
     void insert_prop(std::string&& name, uint32_t offset)
     {
-        m_ChildProps.emplace(name, offset);
+    m_ChildProps.emplace(name, offset);
     }
 };
 
@@ -45,12 +45,12 @@ public:
     TableMap m_Tables;
     void insert(std::string&& name, std::unique_ptr<NetvarTable>&& pTable)
     {
-        m_Tables.emplace(name, std::move(pTable));
+    m_Tables.emplace(name, std::move(pTable));
     }
     Iter find(const std::string& key) { return m_Tables.find(key); }
     Iter begin() { return m_Tables.begin(); }
     Iter end() { return m_Tables.end(); }
-    
+
 };
 
 class NetvarManager
@@ -60,12 +60,12 @@ private:
     NetvarManager();
     ~NetvarManager();
     NetvarManager(const NetvarManager&) = delete;
-    
+
 public:
     static NetvarManager* Instance()
     {
-        if (!instance) instance = new NetvarManager;
-        return instance;
+    if (!instance) instance = new NetvarManager;
+    return instance;
     }
     void CreateDatabase();
     void Dump(std::ostream& stream);
@@ -76,9 +76,14 @@ public:
     template<typename ...Args>
     uint64_t GetOffset(const std::string& szTableName, Args&&... args)
     {
-        return GetOffset(szTableName, { std::forward<Args>(args)... });
+    return GetOffset(szTableName, { std::forward<Args>(args)... });
     }
     uint64_t GetOffset(const std::string& szTableName, const std::initializer_list<std::string>& props);
+    uintptr_t HookProp(const char* tableName, const char* propName, RecvVarProxyFn function);
+    int GetProp(std::vector<RecvTable*> tables, const char* tableName, const char* propName, RecvProp** prop);
+    int GetProp(std::vector<RecvTable*> tables, RecvTable* recvTable, const char* propName, RecvProp** prop);
+    RecvTable* GetTable(std::vector<RecvTable*> tables, const char* tableName);
+    std::vector<RecvTable*> GetTables();
 private:
     std::unique_ptr<NetvarTable>  InternalLoadTable(RecvTable* pRecvTable, uint32_t offset);
     void                          Dump(std::ostream& output, NetvarTable& table, int level);

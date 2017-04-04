@@ -202,7 +202,7 @@
 		D8E7A12F1E5B889D00EC9750 /* hooks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hooks.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D8E7A1301E5B889D00EC9750 /* hooks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hooks.h; sourceTree = "<group>"; wrapsLines = 0; };
 		D8E7A1311E5B889D00EC9750 /* VMT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VMT.h; sourceTree = "<group>"; wrapsLines = 0; };
-		D8E7A1351E5B889D00EC9750 /* nvmngr.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = nvmngr.cpp; sourceTree = "<group>"; };
+		D8E7A1351E5B889D00EC9750 /* nvmngr.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = nvmngr.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D8E7A1361E5B889D00EC9750 /* nvmngr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nvmngr.h; sourceTree = "<group>"; };
 		D8E7A13B1E5B889D00EC9750 /* pattern.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pattern.cpp; sourceTree = "<group>"; };
 		D8E7A13C1E5B889D00EC9750 /* pattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pattern.h; sourceTree = "<group>"; };
@@ -390,6 +390,8 @@
 		D8E7A11D1E5B889D00EC9750 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				D8D95F0C1E8CC252006A1A58 /* Aim.cpp */,
+				D8D95F0D1E8CC252006A1A58 /* Aim.h */,
 				D8E7A1201E5B889D00EC9750 /* BunnyHop.cpp */,
 				D8E7A1211E5B889D00EC9750 /* BunnyHop.h */,
 				D8E7A1221E5B889D00EC9750 /* Chams.cpp */,
@@ -398,12 +400,10 @@
 				D88F3F011E5C0A8100C00A4A /* Esp.h */,
 				D86581BA1E5DEE4F001D33E8 /* FlashReducer.cpp */,
 				D86581BB1E5DEE4F001D33E8 /* FlashReducer.h */,
-				D8E7A1261E5B889D00EC9750 /* TriggerBot.cpp */,
-				D8E7A1271E5B889D00EC9750 /* TriggerBot.h */,
 				D86F0AF51E839A050035EBA3 /* SkinChanger.cpp */,
 				D86F0AF61E839A050035EBA3 /* SkinChanger.h */,
-				D8D95F0C1E8CC252006A1A58 /* Aim.cpp */,
-				D8D95F0D1E8CC252006A1A58 /* Aim.h */,
+				D8E7A1261E5B889D00EC9750 /* TriggerBot.cpp */,
+				D8E7A1271E5B889D00EC9750 /* TriggerBot.h */,
 			);
 			path = Features;
 			sourceTree = "<group>";

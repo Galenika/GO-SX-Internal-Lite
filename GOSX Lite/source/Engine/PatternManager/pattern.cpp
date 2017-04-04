@@ -29,7 +29,7 @@ std::string CPatternScanner::Basename(std::string const& pathname)
 
 void CPatternScanner::LoadModules() {
     struct task_dyld_info dyld_info;
-    vm_address_t address;
+    vm_address_t address = 0x0;
     mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
     if (task_info(current_task(), TASK_DYLD_INFO, (task_info_t)&dyld_info, &count) == KERN_SUCCESS)
     {
