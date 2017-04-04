@@ -19,7 +19,10 @@ namespace FeatureManager {
 
         if (INIGET_BOOL("Improvements", "always_rcs")) {
             if(!g_cAlwaysRCS) {
-                g_cAlwaysRCS = new CAlwaysRCS();
+                if (!g_cAim) {
+                    g_cAim = new CAim();
+                }
+                g_cAlwaysRCS = new CAlwaysRCS(g_cAim);
             }
             g_cAlwaysRCS->apply(pCmd);
         }
