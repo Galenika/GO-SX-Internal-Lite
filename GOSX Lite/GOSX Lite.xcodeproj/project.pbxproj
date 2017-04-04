@@ -10,6 +10,8 @@
 		D802F2801E87B890002C713E /* CCSPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D802F27F1E87B890002C713E /* CCSPlayer.cpp */; };
 		D81D85BC1E84EABE00EC5289 /* SkinChanger.h in Headers */ = {isa = PBXBuildFile; fileRef = D86F0AF61E839A050035EBA3 /* SkinChanger.h */; };
 		D81D85BD1E84EAC800EC5289 /* SkinChanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D86F0AF51E839A050035EBA3 /* SkinChanger.cpp */; };
+		D83C68551E93AD44004DB11A /* AlwaysRCS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */; };
+		D83C68561E93AD44004DB11A /* AlwaysRCS.h in Headers */ = {isa = PBXBuildFile; fileRef = D83C68541E93AD44004DB11A /* AlwaysRCS.h */; };
 		D83EEA191E54DC850024F23F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83EEA181E54DC850024F23F /* Carbon.framework */; };
 		D86581BC1E5DEE4F001D33E8 /* FlashReducer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D86581BA1E5DEE4F001D33E8 /* FlashReducer.cpp */; };
 		D86581BD1E5DEE4F001D33E8 /* FlashReducer.h in Headers */ = {isa = PBXBuildFile; fileRef = D86581BB1E5DEE4F001D33E8 /* FlashReducer.h */; };
@@ -144,6 +146,8 @@
 		D802EE401E5420EA002E0F6E /* gosx.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = gosx.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		D802F27F1E87B890002C713E /* CCSPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPlayer.cpp; sourceTree = "<group>"; };
 		D806DFAB1E77BA5300722622 /* KeyStroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyStroke.h; sourceTree = "<group>"; };
+		D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlwaysRCS.cpp; sourceTree = "<group>"; wrapsLines = 0; };
+		D83C68541E93AD44004DB11A /* AlwaysRCS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlwaysRCS.h; sourceTree = "<group>"; };
 		D83EEA181E54DC850024F23F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		D84E8D231E88DC9600DFFABB /* indexes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indexes.h; sourceTree = "<group>"; };
 		D86581B51E5DE4CC001D33E8 /* IEngineVGui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IEngineVGui.h; sourceTree = "<group>"; };
@@ -410,6 +414,8 @@
 				D86F0AF61E839A050035EBA3 /* SkinChanger.h */,
 				D8E7A1261E5B889D00EC9750 /* TriggerBot.cpp */,
 				D8E7A1271E5B889D00EC9750 /* TriggerBot.h */,
+				D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */,
+				D83C68541E93AD44004DB11A /* AlwaysRCS.h */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -612,6 +618,7 @@
 				D88F3F031E5C0A8100C00A4A /* Esp.h in Headers */,
 				D865FC851E5B88F7001434D3 /* IClientUnknown.h in Headers */,
 				D865FC861E5B88F7001434D3 /* IConVar.h in Headers */,
+				D83C68561E93AD44004DB11A /* AlwaysRCS.h in Headers */,
 				D865FC871E5B88F7001434D3 /* ICvar.h in Headers */,
 				D86581BD1E5DEE4F001D33E8 /* FlashReducer.h in Headers */,
 				D865FC891E5B88F7001434D3 /* IEngineTrace.h in Headers */,
@@ -674,7 +681,7 @@
 		D802EE381E5420EA002E0F6E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Andre Kalisch";
 				TargetAttributes = {
 					D802EE3F1E5420EA002E0F6E = {
@@ -723,6 +730,7 @@
 				D865FCAD1E5B8937001434D3 /* FrameStageNotify.cpp in Sources */,
 				D865FCAE1E5B8937001434D3 /* PaintTraverse.cpp in Sources */,
 				D865FCAF1E5B8937001434D3 /* functions.cpp in Sources */,
+				D83C68551E93AD44004DB11A /* AlwaysRCS.cpp in Sources */,
 				D865FCB01E5B8937001434D3 /* hooks.cpp in Sources */,
 				D8BDFCCA1E64805600F51DC0 /* Utils.cpp in Sources */,
 				D865FCB11E5B8937001434D3 /* nvmngr.cpp in Sources */,
@@ -792,7 +800,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/SDK $(PROJECT_DIR)/Engine $(PROJECT_DIR)/Main";
 			};

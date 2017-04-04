@@ -5,33 +5,41 @@ namespace FeatureManager {
     CBunnyHop* g_cBunnyHop = nullptr;
     CTriggerBot* g_cTriggerBot = nullptr;
     CAim* g_cAim = nullptr;
+    CAlwaysRCS* g_cAlwaysRCS = nullptr;
 
     bool CreateMove(void* thisptr, float sample_input_frametime, CUserCmd* pCmd) {
         bool bRet = true;
 
-        if(INIGET_BOOL("AimHelper", "enabled")) {
-            if(!g_cAim) {
+        if (INIGET_BOOL("AimHelper", "enabled")) {
+            if (!g_cAim) {
                 g_cAim = new CAim();
             }
             g_cAim->CreateMove(pCmd);
         }
 
-        if(INIGET_BOOL("Improvements", "bunnyhop")) {
+        if (INIGET_BOOL("Improvements", "always_rcs")) {
+            if(!g_cAlwaysRCS) {
+                g_cAlwaysRCS = new CAlwaysRCS();
+            }
+            g_cAlwaysRCS->apply(pCmd);
+        }
+
+        if (INIGET_BOOL("Improvements", "bunnyhop")) {
             if (!g_cBunnyHop) {
                 g_cBunnyHop = new CBunnyHop();
             }
             g_cBunnyHop->run(pCmd);
         }
 
-        if(INIGET_BOOL("Improvements", "triggerbot")) {
-            if(!g_cTriggerBot) {
+        if (INIGET_BOOL("Improvements", "triggerbot")) {
+            if (!g_cTriggerBot) {
                 g_cTriggerBot = new CTriggerBot();
             }
             g_cTriggerBot->apply(pCmd);
         }
 
-        if(INIGET_BOOL("Improvements", "rankreveal")) {
-            if(pCmd->buttons & IN_SCORE) {
+        if (INIGET_BOOL("Improvements", "rankreveal")) {
+            if (pCmd->buttons & IN_SCORE) {
                 float input[3] = { 0.f };
                 Utils::RankRevealAll(input);
             }
