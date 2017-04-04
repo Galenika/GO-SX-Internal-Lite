@@ -11,6 +11,7 @@
 namespace FeatureManager {
     CFlashReducer* g_cFlashReducer = nullptr;
     CSkinChanger* g_cSkinChanger = nullptr;
+    CClantagChanger* g_cClantagChanger = nullptr;
     
     void FrameStageNotify(ClientFrameStage_t stage) {
         if(Interfaces::Engine()->IsInGame()) {
@@ -20,6 +21,13 @@ namespace FeatureManager {
                         g_cFlashReducer = new CFlashReducer();
                     }
                     g_cFlashReducer->apply();
+                }
+
+                if(INIGET_BOOL("ClantagChanger", "enabled")) {
+                    if(!g_cClantagChanger) {
+                        g_cClantagChanger = new CClantagChanger();
+                    }
+                    g_cClantagChanger->apply();
                 }
             }
 

@@ -10,6 +10,7 @@
 #define getByte( x )    (getBits(x[0]) << 4 | getBits(x[1]))
 
 typedef void (*RankRevealAllFn) (float*);
+typedef void (*SendClanTagFn) (const char*, const char*);
 
 class Utils
 {
@@ -60,8 +61,10 @@ public:
     }
 
     static void RankRevealAll(float* input);
+    static void SetClanTag(const char* tag, const char* name);
 private:
     static RankRevealAllFn m_fncRankRevealAll;
+    static SendClanTagFn m_fncSetClanTag;
 };
 
 #endif // !utils_h

@@ -9,6 +9,7 @@
 #include "Utils.h"
 
 RankRevealAllFn                             Utils::m_fncRankRevealAll           = nullptr;
+SendClanTagFn                               Utils::m_fncSetClanTag              = nullptr;
 
 void Utils::RankRevealAll(float* input) {
     if(!m_fncRankRevealAll) {
@@ -21,4 +22,17 @@ void Utils::RankRevealAll(float* input) {
     }
 
     m_fncRankRevealAll(input);
+}
+
+void Utils::SetClanTag(const char* tag, const char* name) {
+    if(!m_fncSetClanTag) {
+        uintptr_t SetClanTagPointer = ENGINE_POINTER(
+            (Byte*)"\x48\x8D\x3D\x00\x00\x00\x00\x48\x89\xFE\xE8\x00\x00\x00\x00\xE9\x00\x00\x00\x00",
+            "xxx????xxxx????x????",
+            0xB
+        ) + 0x4;
+        m_fncSetClanTag = reinterpret_cast<SendClanTagFn>(SetClanTagPointer);
+    }
+    
+    m_fncSetClanTag(tag, name);
 }

@@ -106,6 +106,8 @@
 		D865FCBE1E5B8937001434D3 /* VMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8E7A1831E5B889D00EC9750 /* VMatrix.cpp */; };
 		D88F3F021E5C0A8100C00A4A /* Esp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D88F3F001E5C0A8100C00A4A /* Esp.cpp */; };
 		D88F3F031E5C0A8100C00A4A /* Esp.h in Headers */ = {isa = PBXBuildFile; fileRef = D88F3F011E5C0A8100C00A4A /* Esp.h */; };
+		D8971FBC1E938AD500197A26 /* ClantagChanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8971FBA1E938AD500197A26 /* ClantagChanger.cpp */; };
+		D8971FBD1E938AD500197A26 /* ClantagChanger.h in Headers */ = {isa = PBXBuildFile; fileRef = D8971FBB1E938AD500197A26 /* ClantagChanger.h */; };
 		D8A5BC541E80384D00DCAA8D /* IClientEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8A5BC531E80384D00DCAA8D /* IClientEntity.cpp */; };
 		D8B39C1F1E8AEA470002F2EC /* settings.ini in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8B39C1E1E8AEA400002F2EC /* settings.ini */; };
 		D8B6DC5A1E5C8EB000A14926 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8B6DC581E5C8EB000A14926 /* Logger.cpp */; };
@@ -156,6 +158,8 @@
 		D88F3F001E5C0A8100C00A4A /* Esp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Esp.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D88F3F011E5C0A8100C00A4A /* Esp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Esp.h; sourceTree = "<group>"; };
 		D894D0121E61DD04009C04BE /* CPlayerResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPlayerResource.h; sourceTree = "<group>"; wrapsLines = 0; };
+		D8971FBA1E938AD500197A26 /* ClantagChanger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClantagChanger.cpp; sourceTree = "<group>"; };
+		D8971FBB1E938AD500197A26 /* ClantagChanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClantagChanger.h; sourceTree = "<group>"; };
 		D8A5BC531E80384D00DCAA8D /* IClientEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IClientEntity.cpp; sourceTree = "<group>"; };
 		D8A5BC551E80430B00DCAA8D /* CBaseEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBaseEntity.h; sourceTree = "<group>"; };
 		D8AC47FA1E841D2D00EC0D94 /* CBaseClientState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBaseClientState.h; sourceTree = "<group>"; };
@@ -396,6 +400,8 @@
 				D8E7A1211E5B889D00EC9750 /* BunnyHop.h */,
 				D8E7A1221E5B889D00EC9750 /* Chams.cpp */,
 				D8E7A1231E5B889D00EC9750 /* Chams.h */,
+				D8971FBA1E938AD500197A26 /* ClantagChanger.cpp */,
+				D8971FBB1E938AD500197A26 /* ClantagChanger.h */,
 				D88F3F001E5C0A8100C00A4A /* Esp.cpp */,
 				D88F3F011E5C0A8100C00A4A /* Esp.h */,
 				D86581BA1E5DEE4F001D33E8 /* FlashReducer.cpp */,
@@ -614,6 +620,7 @@
 				D865FC8C1E5B88F7001434D3 /* IMaterial.h in Headers */,
 				D865FC8D1E5B88F7001434D3 /* IMaterialSystem.h in Headers */,
 				D865FC8E1E5B88F7001434D3 /* AnalogCode.h in Headers */,
+				D8971FBD1E938AD500197A26 /* ClantagChanger.h in Headers */,
 				D865FC8F1E5B88F7001434D3 /* ButtonCode.h in Headers */,
 				D865FC901E5B88F7001434D3 /* InputEnums.h in Headers */,
 				D865FC911E5B88F7001434D3 /* internal.h in Headers */,
@@ -709,6 +716,7 @@
 				D8A5BC541E80384D00DCAA8D /* IClientEntity.cpp in Sources */,
 				D8D95F0E1E8CC252006A1A58 /* Aim.cpp in Sources */,
 				D865FCAA1E5B8937001434D3 /* Chams.cpp in Sources */,
+				D8971FBC1E938AD500197A26 /* ClantagChanger.cpp in Sources */,
 				D88F3F021E5C0A8100C00A4A /* Esp.cpp in Sources */,
 				D8B6DC5A1E5C8EB000A14926 /* Logger.cpp in Sources */,
 				D865FCAC1E5B8937001434D3 /* TriggerBot.cpp in Sources */,

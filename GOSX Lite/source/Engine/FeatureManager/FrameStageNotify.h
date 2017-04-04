@@ -12,6 +12,7 @@
 #include "SDK/SDK.h"
 #include "Engine/FeatureManager/Features/FlashReducer.h"
 #include "Engine/FeatureManager/Features/SkinChanger.h"
+#include "Engine/FeatureManager/Features/ClantagChanger.h"
 #include "SDK/CCSPlayer.h"
 
 namespace FeatureManager {
