@@ -12,13 +12,15 @@
 #include "SDK/SDK.h"
 #include "SDK/CCSPlayer.h"
 #include "Engine/WeaponManager/weapons.h"
+#include "Engine/FeatureManager/Features/Aim.h"
 
 class CAlwaysRCS {
 public:
-    CAlwaysRCS();
+    CAlwaysRCS(CAim* aimbot);
     void apply(CUserCmd* pCmd);
 protected:
     QAngle lastRCSPunch = QAngle(0.0f, 0.0f, 0.0f);
+    CAim* aimInstance = nullptr;
 };
 
 #endif /* AlwaysRCS_h */

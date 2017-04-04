@@ -215,3 +215,7 @@ void CAim::Smooth(QAngle& angle)
 
     angle = viewAngles + toChange;
 }
+
+bool CAim::HasTarget() {
+    return LockedTargetEntity != nullptr;
+}

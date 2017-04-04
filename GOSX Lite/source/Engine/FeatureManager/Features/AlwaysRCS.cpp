@@ -8,10 +8,18 @@
 
 #include "AlwaysRCS.h"
 
-CAlwaysRCS::CAlwaysRCS() {}
+CAlwaysRCS::CAlwaysRCS(CAim* aimbot) {
+    if(!aimInstance) {
+        aimInstance = aimbot;
+    }
+}
 
 void CAlwaysRCS::apply(CUserCmd *pCmd) {
     if(pCmd->buttons & IN_ATTACK) {
+        if(INIGET_BOOL("AimHelper", "aim_rcs") && aimInstance->HasTarget()) {
+            return;
+        }
+
         QAngle OldViewAngle = pCmd->viewangles;
         QAngle RCSViewAngle;
 

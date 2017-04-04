@@ -21,6 +21,7 @@ public:
     void CreateMove(CUserCmd* pCmd);
     static std::map<int, const char*> GetBoneList();
     static std::map<int, const char*> GetBoneValues();
+    bool HasTarget();
 protected:
     void Smooth(QAngle& angle);
     void RCS(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* TargetEntity, CUserCmd* pCmd);
