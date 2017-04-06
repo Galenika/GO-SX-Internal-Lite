@@ -12,7 +12,9 @@ ___
 - Bunnyhop
 - SkinChanger
 - Show Ranks on Scoreboard
-- No/Reduce Flash 
+- No/Reduce Flash
+- Clantag Changer
+- Always RCS 
 
 ___
 
@@ -44,10 +46,17 @@ When ingame (connected to server):
 
 ___
 
+### Skin Changer
+
+To edit your Weapon Config please refer to [http://www.gosx.one/skin-changer-config/](http://www.gosx.one/skin-changer-config/).
+There you can upload your current weapons.ini to edit it or create a new one from scratch.
+
+___
+
 ### Questions
 
 Feel free to join me on discord:
-https://discord.gg/46GYf8K
+[https://discord.gg/46GYf8K](https://discord.gg/46GYf8K)
 
 ___
 
