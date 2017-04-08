@@ -136,10 +136,7 @@ namespace HookManager
 
     bool HFireEventClientSide(IGameEventManager2* thisptr, IGameEvent* event) {
         if(INIGET_BOOL("Main", "enabled")) {
-            if(!strcmp(event->GetName(), "cs_game_disconnected")) {
-                C_CSPlayer::ResetLocalPlayer();
-                return g_pGameEvent->GetOriginalMethod<FireEventClientSideFn>(10)(thisptr, event);
-            }
+
         }
 
         return g_pGameEvent->GetOriginalMethod<FireEventClientSideFn>(10)(thisptr, event);

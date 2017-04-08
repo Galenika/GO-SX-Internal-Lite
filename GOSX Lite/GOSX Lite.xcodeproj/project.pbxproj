@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D802F2801E87B890002C713E /* CCSPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D802F27F1E87B890002C713E /* CCSPlayer.cpp */; };
 		D81D85BC1E84EABE00EC5289 /* SkinChanger.h in Headers */ = {isa = PBXBuildFile; fileRef = D86F0AF61E839A050035EBA3 /* SkinChanger.h */; };
 		D81D85BD1E84EAC800EC5289 /* SkinChanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D86F0AF51E839A050035EBA3 /* SkinChanger.cpp */; };
 		D83C68551E93AD44004DB11A /* AlwaysRCS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */; };
@@ -144,7 +143,6 @@
 
 /* Begin PBXFileReference section */
 		D802EE401E5420EA002E0F6E /* gosx.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = gosx.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		D802F27F1E87B890002C713E /* CCSPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPlayer.cpp; sourceTree = "<group>"; };
 		D806DFAB1E77BA5300722622 /* KeyStroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyStroke.h; sourceTree = "<group>"; };
 		D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlwaysRCS.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D83C68541E93AD44004DB11A /* AlwaysRCS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlwaysRCS.h; sourceTree = "<group>"; };
@@ -473,7 +471,6 @@
 				D8AC47FA1E841D2D00EC0D94 /* CBaseClientState.h */,
 				D8A5BC551E80430B00DCAA8D /* CBaseEntity.h */,
 				D8BDF70A1E895B820039C292 /* CCSGameRules.h */,
-				D802F27F1E87B890002C713E /* CCSPlayer.cpp */,
 				D8E7A1451E5B889D00EC9750 /* CCSPlayer.h */,
 				D8E7A1461E5B889D00EC9750 /* CGlobalVarsBase.h */,
 				D8E7A1471E5B889D00EC9750 /* CGlowObjectManager.h */,
@@ -737,7 +734,6 @@
 				D865FCB31E5B8937001434D3 /* pattern.cpp in Sources */,
 				D865FCB41E5B8937001434D3 /* weapons.cpp in Sources */,
 				D865FCB51E5B8937001434D3 /* main.cpp in Sources */,
-				D802F2801E87B890002C713E /* CCSPlayer.cpp in Sources */,
 				D865FCB61E5B8937001434D3 /* CMath.cpp in Sources */,
 				D865FCB71E5B8937001434D3 /* CRC.cpp in Sources */,
 				D865FCB81E5B8937001434D3 /* Func.cpp in Sources */,

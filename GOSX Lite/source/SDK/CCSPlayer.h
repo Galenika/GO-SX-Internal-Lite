@@ -91,15 +91,7 @@ class C_CSPlayer : public C_BaseEntity
 public:
     static C_CSPlayer* GetLocalPlayer()
     {
-        if(!LocalPlayerInstance) {
-            LocalPlayerInstance = (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetLocalPlayer());
-        }
-
-        return LocalPlayerInstance;
-    }
-
-    static void ResetLocalPlayer() {
-        LocalPlayerInstance = nullptr;
+        return (C_CSPlayer*)Interfaces::EntityList()->GetClientEntity(Interfaces::Engine()->GetLocalPlayer());
     }
 
     static C_CSPlayer* GetEntity(int index)
@@ -353,8 +345,6 @@ public:
     const char* GetClan() {
         return Interfaces::PlayerResource()->GetClan(EntIndex());
     }
-private:
-    static C_CSPlayer* LocalPlayerInstance;
 };
 
 class C_PlantedC4 : public C_BaseEntity
