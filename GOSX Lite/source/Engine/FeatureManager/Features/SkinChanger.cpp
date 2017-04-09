@@ -36,7 +36,10 @@ void CSkinChanger::apply(ClientFrameStage_t stage) {
             }
 
             int* item_definition_index = weapon->GetItemDefinitionIndex();
-
+            if (*item_definition_index == 0) {
+                continue;
+            }
+            
             const char* weaponConfigName = ItemDefinitionIndex.at(*item_definition_index).entity_name;
             if (config->HasWeaponConfiguration(weaponConfigName)) {
                 const EconomyItem_t& weapon_config = config->GetWeaponConfiguration(weaponConfigName);
