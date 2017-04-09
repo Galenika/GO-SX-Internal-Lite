@@ -135,10 +135,6 @@ namespace HookManager
     }
 
     bool HFireEventClientSide(IGameEventManager2* thisptr, IGameEvent* event) {
-        if(INIGET_BOOL("Main", "enabled")) {
-
-        }
-
         return g_pGameEvent->GetOriginalMethod<FireEventClientSideFn>(10)(thisptr, event);
     }
 
