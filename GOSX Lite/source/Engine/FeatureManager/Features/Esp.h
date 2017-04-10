@@ -11,16 +11,13 @@
 
 #include "SDK/SDK.h"
 #include "Engine/DrawManager/draw.h"
+#include "SDK/Utils.h"
 
 class CEsp {
 public:
     CEsp(CDrawings* drawMngr);
     void DrawESP();
-    void DrawCrossHair();
-    void DrawFOVCircle();
-    void DrawSilentFOVCircle();
-    void DrawScope();
-    void DrawBomb();
+    void DrawSmokeESP();
 private:
     CDrawings* DrawManager;
 };

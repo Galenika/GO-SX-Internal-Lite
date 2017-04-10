@@ -53,3 +53,37 @@ void CEsp::DrawESP()
         DrawManager->DynamicBox(pPlayer, info.name, clrTeam);
     }
 }
+
+void CEsp::DrawSmokeESP() {
+    C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
+    if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
+        return;
+    }
+
+    for (int i = 1; i <= Interfaces::Engine()->GetMaxClients(); i++) {
+        C_CSPlayer* pPlayer = C_CSPlayer::GetEntity(i);
+        if (!pPlayer || !pPlayer->IsValidLivePlayer()) {
+            continue;
+        }
+
+        if (pPlayer->GetTeamNum() == LocalPlayer->GetTeamNum()) {
+            continue;
+        }
+
+        if (pPlayer->GetImmune()) {
+            continue;
+        }
+
+        Vector playerHead = pPlayer->GetHitboxPosition(HITBOX_NECK);
+        if(!Utils::LineGoesThroughSmoke(LocalPlayer->GetEyePos(), playerHead)) {
+            continue;
+        }
+
+        Vector HeadScreenPos;
+        if (!Utils::WorldToScreen(playerHead, HeadScreenPos)) {
+            continue;
+        }
+
+        DrawManager->DrawRect((int)HeadScreenPos.x - 2, (int)HeadScreenPos.y - 2, 4, 4, Color(255, 255, 255, 255));
+    }
+}

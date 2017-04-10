@@ -11,6 +11,7 @@
 
 typedef void (*RankRevealAllFn) (float*);
 typedef void (*SendClanTagFn) (const char*, const char*);
+typedef bool (*LineGoesThroughSmokeFn) (Vector, Vector, bool);
 
 class Utils
 {
@@ -62,9 +63,11 @@ public:
 
     static void RankRevealAll(float* input);
     static void SetClanTag(const char* tag, const char* name);
+    static bool LineGoesThroughSmoke(Vector start, Vector end);
 private:
     static RankRevealAllFn m_fncRankRevealAll;
     static SendClanTagFn m_fncSetClanTag;
+    static LineGoesThroughSmokeFn m_fncLineGoesThroughSmoke;
 };
 
 #endif // !utils_h

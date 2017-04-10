@@ -29,6 +29,10 @@ namespace FeatureManager
                         if(INIGET_BOOL("Drawing", "playeresp")) {
                             g_cEsp->DrawESP();
                         }
+
+                        if (!INIGET_BOOL("Drawing", "playeresp") && INIGET_BOOL("Drawing", "smoke_esp")) {
+                            g_cEsp->DrawSmokeESP();
+                        }
                     }
                 }
             }
