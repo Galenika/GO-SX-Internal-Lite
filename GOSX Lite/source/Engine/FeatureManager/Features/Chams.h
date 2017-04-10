@@ -10,6 +10,8 @@
 class CChams {
 public:
     CChams();
+    static std::map<int, const char*> GetChamList();
+    static std::map<int, const char*> GetChamValues();
     void apply(
         IMatRenderContext* oriContext,
         const DrawModelState_t &oriState,

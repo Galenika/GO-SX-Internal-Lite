@@ -10,6 +10,7 @@
 #include "KeyStroke.h"
 #include "Engine/FeatureManager/Features/Aim.h"
 #include "Engine/FeatureManager/Features/ClantagChanger.h"
+#include "Engine/FeatureManager/Features/Chams.h"
 
 CHackMenu* CHackMenu::instance = nullptr;
 
@@ -285,6 +286,10 @@ void CHackMenu::AddMenuItem(const char *section, const char* key, int col, int r
         if(!strcmp(section, "ClantagChanger")) {
             list = CClantagChanger::GetList();
             values = CClantagChanger::GetValues();
+        }
+        if(!strcmp(section, "Chams") && !strcmp(key, "chams_type")) {
+            list = CChams::GetChamList();
+            values = CChams::GetChamValues();
         }
         DrawSelectField(section, key, ButtonBaseX, ButtonBaseY, INIGET_INT(section, key), list, values);
     }
