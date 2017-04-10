@@ -11,7 +11,7 @@
 CTriggerBot::CTriggerBot() {}
 
 void CTriggerBot::apply(CUserCmd *pCmd) {
-    if(Interfaces::InputSystem()->IsButtonDown(MOUSE_RIGHT)) {
+    if(Interfaces::InputSystem()->IsButtonDown(MOUSE_MIDDLE)) {
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
             return;
