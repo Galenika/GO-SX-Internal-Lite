@@ -3,8 +3,8 @@
 CChams::CChams() {
     hidden_tex = CreateMaterial(false, false, true, true, true, true, true);
     visible_tex = CreateMaterial(true, false, true, true, true, true, true);
-    hidden_flat = CreateMaterial(false, true, true, true, true, true, true);
-    visible_flat = CreateMaterial(true, true, true, true, true, true, true);
+    hidden_flat = CreateMaterial(false, true, true, true, true, true, false);
+    visible_flat = CreateMaterial(true, true, true, true, true, true, false);
 }
 
 std::map<int, const char*> CChams::GetChamList() {
@@ -37,7 +37,7 @@ void CChams::AddMaterial(std::string filename, std::string type, std::string tex
         ss << "\t\"$model\" \"" + std::to_string(model) + "\"" << std::endl;
         ss << "\t\"$nocull\" \"" + std::to_string(nocull) + "\"" << std::endl;
         ss << "\t\"$halflambert\" \"" + std::to_string(halflambert) + "\"" << std::endl;
-        if (gluelook && !texture.find("UnlitGeneric")) {
+        if (gluelook) {
             ss << "\t\"$envmap\" \"env_cubemap\"" << std::endl;
             ss << "\t\"$normalmapalphaenvmapmask\" 1" << std::endl;
             ss << "\t\"$envmapcontrast\" 1" << std::endl;
@@ -51,31 +51,29 @@ void CChams::AddMaterial(std::string filename, std::string type, std::string tex
 IMaterial* CChams::CreateMaterial(bool ignorez, bool flat, bool nofog, bool model, bool nocull, bool halflambert, bool gluelook) {
     IMaterial* createdMaterial = nullptr;
 
-    if (gluelook) {
-        if (ignorez) {
-            if (flat) {
-                if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_flat_ignorez").append(".vmt"))) {
-                    AddMaterial("chamsmat_flat_ignorez", "UnlitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
-                }
-                createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_flat_ignorez");
-            } else {
-                if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_ignorez").append(".vmt"))) {
-                    AddMaterial("chamsmat_ignorez", "VertexLitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
-                }
-                createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_ignorez");
+    if (ignorez) {
+        if (flat) {
+            if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_flat_ignorez").append(".vmt"))) {
+                AddMaterial("chamsmat_flat_ignorez", "UnlitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
             }
+            createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_flat_ignorez");
         } else {
-            if (flat) {
-                if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_flat").append(".vmt"))) {
-                    AddMaterial("chamsmat_flat", "UnlitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
-                }
-                createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_flat");
-            } else {
-                if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat").append(".vmt"))) {
-                    AddMaterial("chamsmat", "VertexLitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
-                }
-                createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat");
+            if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_ignorez").append(".vmt"))) {
+                AddMaterial("chamsmat_ignorez", "VertexLitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
             }
+            createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_ignorez");
+        }
+    } else {
+        if (flat) {
+            if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat_flat").append(".vmt"))) {
+                AddMaterial("chamsmat_flat", "UnlitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
+            }
+            createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat_flat");
+        } else {
+            if (!Func::IsFileExists(Func::GetWorkingPath().append("csgo/materials/").append("chamsmat").append(".vmt"))) {
+                AddMaterial("chamsmat", "VertexLitGeneric", "VGUI/white_additive", ignorez, nofog, model, nocull, halflambert, gluelook);
+            }
+            createdMaterial = Interfaces::MaterialSystem()->FindMaterial("chamsmat");
         }
     }
 
