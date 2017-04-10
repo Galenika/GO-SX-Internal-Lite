@@ -55,6 +55,7 @@ namespace Functions {
     void SetMousePos(int x, int y);
     bool FileExist(std::string fileName);
     std::string DirName(std::string source);
+    long GetEpochTime();
 }
 
 #endif /* functions_h */
