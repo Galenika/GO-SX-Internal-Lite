@@ -28,6 +28,7 @@ protected:
     void Reset();
 private:
     C_CSPlayer* LockedTargetEntity = nullptr;
+    int LockedEntityBone = -5;
 };
 
 #endif /* Aim_hpp */

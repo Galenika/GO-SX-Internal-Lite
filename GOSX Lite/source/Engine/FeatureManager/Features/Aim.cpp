@@ -43,15 +43,15 @@ std::map<int, const char*> CAim::GetBoneValues() {
 
 void CAim::CreateMove(CUserCmd *pCmd) {
     C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
-    if(!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
-        if(LockedTargetEntity) {
+    if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
+        if (LockedTargetEntity) {
             Reset();
         }
         return;
     }
 
     C_BaseCombatWeapon* currentWeapon = LocalPlayer->GetActiveWeapon();
-    if(!currentWeapon) {
+    if (!currentWeapon) {
         if(LockedTargetEntity) {
             Reset();
         }
@@ -65,7 +65,7 @@ void CAim::CreateMove(CUserCmd *pCmd) {
         CWeaponManager::isGrenade(currentWeaponID) ||
         CWeaponManager::isNonAimWeapon(currentWeaponID)
     ) {
-        if(LockedTargetEntity) {
+        if (LockedTargetEntity) {
             Reset();
         }
         return;
@@ -81,20 +81,20 @@ void CAim::CreateMove(CUserCmd *pCmd) {
             currentWeaponID == EItemDefinitionIndex::weapon_revolver
         )
     ) {
-        if(LockedTargetEntity) {
+        if (LockedTargetEntity) {
             Reset();
         }
         return;
     }
 
     C_CSPlayer* TargetEntity = nullptr;
-    if(!LockedTargetEntity) {
+    if (!LockedTargetEntity) {
         TargetEntity = FindTarget(LocalPlayer);
     } else {
         TargetEntity = LockedTargetEntity;
     }
-    if(!TargetEntity || !TargetEntity->IsValidLivePlayer()) {
-        if(LockedTargetEntity) {
+    if (!TargetEntity || !TargetEntity->IsValidLivePlayer()) {
+        if (LockedTargetEntity) {
             Reset();
         }
         return;
@@ -112,22 +112,22 @@ C_CSPlayer* CAim::FindTarget(C_CSPlayer* LocalPlayer) {
 
     for(int i = 1; i < Interfaces::Engine()->GetMaxClients(); i++) {
         C_CSPlayer* PossibleTarget = C_CSPlayer::GetEntity(i);
-        if(!PossibleTarget || !PossibleTarget->IsValidLivePlayer() || PossibleTarget->GetImmune()) {
+        if (!PossibleTarget || !PossibleTarget->IsValidLivePlayer() || PossibleTarget->GetImmune()) {
             continue;
         }
 
-        if(INIGET_BOOL("AimHelper", "team_check") && LocalPlayer->GetTeamNum() == PossibleTarget->GetTeamNum()) {
+        if (INIGET_BOOL("AimHelper", "team_check") && LocalPlayer->GetTeamNum() == PossibleTarget->GetTeamNum()) {
             continue;
         }
 
         Vector PossibleTargetHitbox = PossibleTarget->GetPredictedPosition(INIGET_INT("AimHelper", "aim_hitbox"));
-        if(INIGET_BOOL("AimHelper", "visibility_check") && !PossibleTarget->IsVisible(LocalPlayer, PossibleTargetHitbox)) {
+        if (INIGET_BOOL("AimHelper", "visibility_check") && !PossibleTarget->IsVisible(LocalPlayer, PossibleTargetHitbox)) {
             continue;
         }
 
         float FieldOfViewToTarget = CMath::GetFov(LocalPlayerViewAngle, LocalPlayerEyePosition, PossibleTargetHitbox);
 
-        if(FieldOfViewToTarget < fov) {
+        if (FieldOfViewToTarget < fov) {
             TargetEntity = PossibleTarget;
             fov = FieldOfViewToTarget;
         }
@@ -142,7 +142,14 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
     float oldForward = pCmd->forwardmove;
     float oldSideMove = pCmd->sidemove;
 
-    Vector TargetHitbox = AimTarget->GetPredictedPosition(INIGET_INT("AimHelper", "aim_hitbox"));
+    int LockedBone;
+    if (LockedEntityBone == -5) {
+        LockedBone = INIGET_INT("AimHelper", "aim_hitbox");
+    } else {
+        LockedBone = LockedEntityBone;
+    }
+
+    Vector TargetHitbox = AimTarget->GetPredictedPosition(LockedBone);
     Vector dir = LocalPlayer->GetEyePos() - TargetHitbox;
     
     CMath::VectorNormalize(dir);
@@ -167,6 +174,7 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
 
 void CAim::Reset() {
     LockedTargetEntity = nullptr;
+    LockedEntityBone = -5;
 }
 
 void CAim::RCS(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* TargetEntity, CUserCmd* pCmd) {
@@ -179,7 +187,7 @@ void CAim::RCS(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* TargetEntity,
     }
 
     C_BaseCombatWeapon* currentWeapon = LocalPlayer->GetActiveWeapon();
-    if(!currentWeapon) {
+    if (!currentWeapon) {
         return;
     }
     int currentWeaponID = currentWeapon->GetWeaponEntityID();
