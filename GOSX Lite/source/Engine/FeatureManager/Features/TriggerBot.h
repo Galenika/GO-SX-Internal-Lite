@@ -18,7 +18,7 @@ public:
     CTriggerBot();
     void apply(CUserCmd* pCmd);
 protected:
-    long timeStamp;
+    float triggerTime = 0.f;
     // Change your TriggerKey here
     ButtonCode_t triggerKey = MOUSE_MIDDLE; // please refer to SDK/inputsystem/ButtonCode.h to see all keys
 };

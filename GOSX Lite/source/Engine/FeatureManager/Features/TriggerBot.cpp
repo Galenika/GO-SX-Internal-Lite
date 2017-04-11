@@ -11,7 +11,7 @@
 CTriggerBot::CTriggerBot() {}
 
 void CTriggerBot::apply(CUserCmd *pCmd) {
-    if(Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
+    if (Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
             return;
@@ -46,16 +46,30 @@ void CTriggerBot::apply(CUserCmd *pCmd) {
         }
 
         C_CSPlayer* player = (C_CSPlayer*)trace.m_pEnt;
-        if(!player || !player->IsValidLivePlayer() || player->GetImmune()) {
+        if (!player || !player->IsValidLivePlayer() || player->GetImmune()) {
             return;
         }
 
-        if(player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer) {
+        if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer) {
             return;
         }
 
-        if(LocalPlayer->GetTeamNum() == player->GetTeamNum()) {
+        if (LocalPlayer->GetTeamNum() == player->GetTeamNum()) {
             return;
+        }
+
+        if (INIGET_BOOL("Improvements", "trigger_delay")) {
+            float currTime = Interfaces::GlobalVars()->curtime;
+            if (triggerTime == 0.f) {
+                triggerTime = currTime;
+            }
+
+            float triggerDelay = (float)(INIGET_INT("Improvements", "trigger_delay_value") / 1000);
+            if ((currTime - triggerTime) < triggerDelay) {
+                return;
+            }
+
+            triggerTime = currTime;
         }
 
         if (active_weapon->NextPrimaryAttack() > Interfaces::GlobalVars()->curtime) {
@@ -70,6 +84,10 @@ void CTriggerBot::apply(CUserCmd *pCmd) {
             } else {
                 pCmd->buttons |= IN_ATTACK;
             }
+        }
+    } else {
+        if (triggerTime > 0.f) {
+            triggerTime = 0.f;
         }
     }
 }
