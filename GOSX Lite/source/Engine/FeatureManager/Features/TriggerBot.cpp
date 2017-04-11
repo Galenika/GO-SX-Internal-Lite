@@ -11,7 +11,23 @@
 CTriggerBot::CTriggerBot() {}
 
 void CTriggerBot::apply(CUserCmd *pCmd) {
-    if(Interfaces::InputSystem()->IsButtonDown(MOUSE_MIDDLE)) {
+    if(Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
+        long currentTime_ms, oldTimeStamp;
+        currentTime_ms = Functions::GetEpochTime();
+        if (INIGET_BOOL("Improvements", "trigger_delay")) {
+            float delayvalue = INIGET_FLOAT("Improvements", "delay_value");
+
+            if (delayvalue > 0) {
+                oldTimeStamp = timeStamp;
+                timeStamp = currentTime_ms;
+
+                if ((currentTime_ms - oldTimeStamp) < delayvalue) {
+                    timeStamp = oldTimeStamp;
+                    return;
+                }
+            }
+        }
+
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
             return;
@@ -41,15 +57,6 @@ void CTriggerBot::apply(CUserCmd *pCmd) {
         ray.Init(traceStart, traceEnd);
         Interfaces::EngineTrace()->TraceRay(ray, MASK_SHOT, &filter, &trace);
         
-        float delayvalue = INIGET_FLOAT("Improvements", ”delay_value”);
-        
-        long currentTime_ms = Functions::GetEpochTime();
-        static long timeStamp = currentTime_ms;
-        long oldTimeStamp;
-        
-        oldTimeStamp = timeStamp;
-        timeStamp = currentTime_ms;
-        
         if (trace.allsolid || trace.startsolid) {
             return;
         }
@@ -74,11 +81,6 @@ void CTriggerBot::apply(CUserCmd *pCmd) {
                 pCmd->buttons &= ~IN_ATTACK;
             }
         } else {
-            if(INIGET_BOOL(”Improvements”, ”trigger_delay") && currentTime_ms - oldTimeStamp < delayvalue)
-            {
-                timeStamp = oldTimeStamp;
-                return;
-            }
             if (active_weapon->GetWeaponEntityID() == weapon_revolver) {
                 pCmd->buttons |= IN_ATTACK2;
             } else {

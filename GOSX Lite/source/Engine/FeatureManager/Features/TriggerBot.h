@@ -17,6 +17,10 @@ class CTriggerBot {
 public:
     CTriggerBot();
     void apply(CUserCmd* pCmd);
+protected:
+    long timeStamp;
+    // Change your TriggerKey here
+    ButtonCode_t triggerKey = MOUSE_MIDDLE; // please refer to SDK/inputsystem/ButtonCode.h to see all keys
 };
 
 #endif /* TriggerBot_h */

@@ -83,6 +83,7 @@ std::string Functions::DirName(std::string source)
     source.erase(find(source.rbegin(), source.rend(), '/').base(), source.end());
     return source;
 }
+
 long Functions::GetEpochTime()
 {
     auto duration = std::chrono::system_clock::now().time_since_epoch();
