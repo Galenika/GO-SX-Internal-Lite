@@ -6,9 +6,10 @@ ___
 ### Features
 
 - Basic Aimbot (w/ RCS, Smooth, Silent Aim)
-- Chams
+- Chams (Textured & Flat)
 - Box ESP (Healthbar & Name)
-- Triggerbot
+- Smoke ESP 
+- Triggerbot (with adjustable delay)
 - Bunnyhop
 - SkinChanger
 - Show Ranks on Scoreboard
@@ -25,24 +26,41 @@ ___
 
 ___
 
-### How to Setup
+### How to run
 
-- Open GO:SX Lite Workspace,
-- Fix the Settings,
-- Build the dylib, osxinj and bootstrap.dylib (all files incl.)
-- Copy the Files `settings.ini`, `menu.ini` and `weapons.ini` from Engine folder to the `gosx.dylib` folder.
+Build the source or Download the latest release from [gosx.one](http://www.gosx.one)
+
+-
+
+> If you downloaded the lastest release:
+> 
+> - Extract all files to a folder of your choice
+> - In Terminal navigate to that folder
+> - Run CS:GO
+> - execute `sudo ./gosx` (type in your admin password when ask)
+> - A MessageBox apears so the Hack is injected
+
+-
+
+> If you build on your own:
+> 
+> - Navigate to product folder with terminal (in XCode right click the gosx.dylib and the `Show in Finder`)
+> - Run CS:GO
+> - execute `sudo ./gosx` (type in your admin password when ask)
+> - A MessageBox apears so the Hack is injected
+
+-
+
+When ingame (connected to server) press `Fn` + `Backspace` (or simply DEL on full featured Keyboard) to open the ingame menu
 
 ___
 
-### How to run
+### How to Build
 
-- Navigate to product folder with terminal (in XCode right click the gosx.dylib and the `Show in Finder`)
-- execute `sudo ./gosx` (type in your admin password when ask)
-- A MessageBox apears so the Hack is injected
-
-When ingame (connected to server):
-
-- Press `Fn` + `Backspace` (or simply DEL if you have full featured Keyboard) to open the ingame menu
+- Open GO:SX Lite Workspace,
+- Fix the Settings (Build path, deployment target and architecture),
+- Build the dylib, osxinj and bootstrap.dylib (all files incl.)
+- Copy the Files `settings.ini`, `menu.ini` and `weapons.ini` from Engine folder to the `gosx.dylib` folder.
 
 ___
 
@@ -57,6 +75,14 @@ ___
 
 Feel free to join me on discord:
 [https://discord.gg/46GYf8K](https://discord.gg/46GYf8K)
+
+___
+
+### Contributions
+Feel free to create pull requests or feature branches if you want to put something into that Project.
+But do it the right way. Every contribution that breaks the project will be reverted uncommented. Also you will loose your contributor state to this project.
+
+**You have been warned.**
 
 ___
 
