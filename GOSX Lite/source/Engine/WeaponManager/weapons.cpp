@@ -167,8 +167,11 @@ bool CWeaponManager::IsScopeWeapon(int weaponID) {
 
 bool CWeaponManager::isNonAimWeapon(int weaponID) {
     if (
-       weaponID == EItemDefinitionIndex::weapon_scar20 ||
-       weaponID == EItemDefinitionIndex::weapon_g3sg1
+        !INIGET_BOOL("AimHelper", "autosniper_aim") &&
+        (
+            weaponID == EItemDefinitionIndex::weapon_scar20 ||
+            weaponID == EItemDefinitionIndex::weapon_g3sg1
+        )
     ) {
         return true;
     }
