@@ -8,27 +8,31 @@
 
 #include "SDK.h"
 
-ISurface*           Interfaces::m_pSurface              = nullptr;
-IPanel*             Interfaces::m_pPanel                = nullptr;
-ICvar*              Interfaces::m_pCvar                 = nullptr;
-IBaseClientDLL*     Interfaces::m_pClient               = nullptr;
-IVEngineClient*     Interfaces::m_pEngine               = nullptr;
-IClientEntityList*  Interfaces::m_pEntList              = nullptr;
-IEngineTrace*       Interfaces::m_pEngineTrace          = nullptr;
-IVModelInfo*        Interfaces::m_pModelInfo            = nullptr;
-IVModelRender*      Interfaces::m_pModelRender          = nullptr;
-IMaterialSystem*    Interfaces::m_pMaterialSystem       = nullptr;
-IClientMode*        Interfaces::m_pClientMode           = nullptr;
-CGlobalVarsBase*    Interfaces::m_pGlobalVars           = nullptr;
-CGlowObjectManager* Interfaces::m_pGlowObjectManager    = nullptr;
-IViewRender*        Interfaces::m_pViewRender           = nullptr;
-IInputSystem*       Interfaces::m_pInputSystem          = nullptr;
-C_CSPlayerResource* Interfaces::m_pPlayerResource       = nullptr;
-IVDebugOverlay*     Interfaces::m_pOverlay              = nullptr;
-IGameEventManager2* Interfaces::m_pGameEventManager     = nullptr;
-IVModelInfoClient*  Interfaces::m_pModelInfoClient      = nullptr;
-CBaseClientState*   Interfaces::m_pBaseClientState      = nullptr;
-C_CSGameRules*      Interfaces::m_pGameRules            = nullptr;
+ISurface*               Interfaces::m_pSurface              = nullptr;
+IPanel*                 Interfaces::m_pPanel                = nullptr;
+ICvar*                  Interfaces::m_pCvar                 = nullptr;
+IBaseClientDLL*         Interfaces::m_pClient               = nullptr;
+IVEngineClient*         Interfaces::m_pEngine               = nullptr;
+IClientEntityList*      Interfaces::m_pEntList              = nullptr;
+IEngineTrace*           Interfaces::m_pEngineTrace          = nullptr;
+IVModelInfo*            Interfaces::m_pModelInfo            = nullptr;
+IVModelRender*          Interfaces::m_pModelRender          = nullptr;
+IMaterialSystem*        Interfaces::m_pMaterialSystem       = nullptr;
+IClientMode*            Interfaces::m_pClientMode           = nullptr;
+CGlobalVarsBase*        Interfaces::m_pGlobalVars           = nullptr;
+CGlowObjectManager*     Interfaces::m_pGlowObjectManager    = nullptr;
+IViewRender*            Interfaces::m_pViewRender           = nullptr;
+IInputSystem*           Interfaces::m_pInputSystem          = nullptr;
+C_CSPlayerResource*     Interfaces::m_pPlayerResource       = nullptr;
+IVDebugOverlay*         Interfaces::m_pOverlay              = nullptr;
+IGameEventManager2*     Interfaces::m_pGameEventManager     = nullptr;
+IVModelInfoClient*      Interfaces::m_pModelInfoClient      = nullptr;
+CBaseClientState*       Interfaces::m_pBaseClientState      = nullptr;
+C_CSGameRules*          Interfaces::m_pGameRules            = nullptr;
+IGameMovement*          Interfaces::m_pGameMovement         = nullptr;
+IPhysicsSurfaceProps*   Interfaces::m_pPhysics              = nullptr;
+IPrediction*            Interfaces::m_pPrediction           = nullptr;
+IMoveHelper*            Interfaces::m_pMoveHelper           = nullptr;
 
 typedef IClientMode* (*GetClientModeFn) (void);
 
@@ -225,4 +229,43 @@ C_CSGameRules* Interfaces::GameRules() {
     }
 
     return m_pGameRules;
+}
+
+
+IGameMovement* Interfaces::GameMovement() {
+    if (!m_pGameMovement) {
+        m_pGameMovement = Internal::GetInterface<IGameMovement>("./csgo/bin/osx64/client.dylib", "GameMovement");
+    }
+
+    return m_pGameMovement;
+}
+
+IPhysicsSurfaceProps* Interfaces::Physics() {
+    if (!m_pPhysics) {
+        m_pPhysics = Internal::GetInterface<IPhysicsSurfaceProps>("./bin/osx64/vphysics.dylib", "VPhysicsSurfaceProps");
+    }
+
+    return m_pPhysics;
+}
+
+IPrediction* Interfaces::Prediction() {
+    if (!m_pPrediction) {
+        m_pPrediction = Internal::GetInterface<IPrediction>("./csgo/bin/osx64/client.dylib", "VClientPrediction");
+    }
+
+    return m_pPrediction;
+}
+
+IMoveHelper* Interfaces::MoveHelper() {
+    return m_pMoveHelper;
+}
+
+void Interfaces::SetMoveHelper(IMoveHelper* MoveHelper) {
+    if(!m_pMoveHelper) {
+        m_pMoveHelper = MoveHelper;
+    }
+}
+
+bool Interfaces::HasMoveHelper() {
+    return m_pMoveHelper != nullptr;
 }

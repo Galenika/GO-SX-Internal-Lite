@@ -30,6 +30,7 @@ namespace HookManager
     typedef bool(*CreateMoveFn)             (void*, float, CUserCmd*);
     typedef  int(*KeyEventFn)               (void*, int, int, const char*);
     typedef bool(*FireEventClientSideFn)    (IGameEventManager2*, IGameEvent*);
+    typedef void(*RunCommandFn)             (void*, C_BaseEntity*, CUserCmd*, void*);
     
     //---------------------------------------------------
     // Hooked functions
@@ -41,6 +42,8 @@ namespace HookManager
      int HINKeyEvent (void* thisptr, int eventcode, int keynum, const char* currentbinding);
     bool HFireEventClientSide(IGameEventManager2* thisptr, IGameEvent* event);
     void HSequenceProxyFn(const CRecvProxyData *pData, void *pStruct, void *pOut);
+    void HRunCommand(void* thisptr, C_BaseEntity* pLocal, CUserCmd* pCmd, void* pHelper);
+
 };
 
 #endif // !hooks_h

@@ -503,6 +503,36 @@ enum ECSPlayerBones
     hand_L
 };
 
+enum class PlayerBones {
+    Head = 0,
+    Neck = 1,
+    Neck_Lower = 2,
+    Pelvis = 3,
+    Stomach = 4,
+    Lower_Chest = 5,
+    Chest = 6,
+    Upper_Chest = 7,
+    Right_Thigh = 8,
+    Left_Thigh = 9,
+    Right_Shin = 10,
+    Left_Shin = 11,
+    Right_Foot = 12,
+    Left_Foot = 13
+};
+
+enum HitGroups: int
+{
+    HITGROUP_GENERIC = 0,
+    HITGROUP_HEAD,
+    HITGROUP_CHEST,
+    HITGROUP_STOMACH,
+    HITGROUP_LEFTARM,
+    HITGROUP_RIGHTARM,
+    HITGROUP_LEFTLEG,
+    HITGROUP_RIGHTLEG,
+    HITGROUP_GEAR
+};
+
 struct Item_t {
     Item_t(const char* display_name, const char* entity_name, const char* model, const char* killicon = nullptr) {
         this->display_name = display_name;

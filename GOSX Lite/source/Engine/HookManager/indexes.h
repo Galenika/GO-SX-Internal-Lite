@@ -17,5 +17,6 @@
 #define INDEX_OVERRIDEVIEW 19
 #define INDEX_CREATEMOVE 25
 #define INDEX_FIREEVENTCLIENTSIDE 10
+#define INDEX_RUNCOMMAND 20
 
 #endif /* indexes_h */

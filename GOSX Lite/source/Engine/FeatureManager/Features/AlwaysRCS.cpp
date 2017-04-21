@@ -9,7 +9,7 @@
 #include "AlwaysRCS.h"
 
 CAlwaysRCS::CAlwaysRCS(CAim* aimbot) {
-    if(!aimInstance) {
+    if (!aimInstance) {
         aimInstance = aimbot;
     }
 }

@@ -14,8 +14,7 @@
 #define MAX_WEAPON_PREFIX 16
 #define MAX_WEAPON_AMMO_NAME 32
 
-enum WeaponSound_t
-{
+enum WeaponSound_t {
     EMPTY,
     SINGLE,
     SINGLE_NPC,
@@ -40,14 +39,18 @@ enum WeaponSound_t
 };
 
 
-class CHudTexture;
+class CHudTexture {
+    char pad[0x82];
+public:
+    char cCharacterInFont;
+};
 
 class FileWeaponInfo_t
 {
 public:
     FileWeaponInfo_t();
 
-    // Each game can override this to get whatever values it wants from the script.
+        // Each game can override this to get whatever values it wants from the script.
     virtual void Parse(KeyValues *pKeyValuesData, const char *szWeaponName);
 
     bool bParsedScript;
@@ -75,19 +78,19 @@ public:
     char szAmmo2[MAX_WEAPON_AMMO_NAME];
     char szAIAddOn[MAX_WEAPON_STRING];
 
-    // Sound blocks
+        // Sound blocks
     char aShootSounds[NUM_SHOOT_SOUND_TYPES][MAX_WEAPON_STRING];
 
     int iAmmoType;
     int iAmmo2Type;
     bool m_bMeleeWeapon;
 
-    // This tells if the weapon was built right-handed (defaults to true).
-    // This helps cl_righthand make the decision about whether to flip the model or not.
+        // This tells if the weapon was built right-handed (defaults to true).
+        // This helps cl_righthand make the decision about whether to flip the model or not.
     bool m_bBuiltRightHanded;
     bool m_bAllowFlipping;
 
-    // Sprite data, read from the data file
+        // Sprite data, read from the data file
     int iSpriteCount;
     CHudTexture* iconActive;
     CHudTexture* iconInactive;
@@ -100,8 +103,7 @@ public:
     CHudTexture* iconSmall;
 };
 
-enum class CSWeaponType : int
-{
+enum class CSWeaponType : int {
     WEAPONTYPE_KNIFE = 0,
     WEAPONTYPE_PISTOL,
     WEAPONTYPE_SUBMACHINEGUN,
@@ -114,61 +116,72 @@ enum class CSWeaponType : int
     WEAPONTYPE_UNKNOWN
 };
 
-class CCSWeaponInfo : public FileWeaponInfo_t
-{
+struct WeaponCSInfo_t {
+    CSWeaponType    WeaponType;
+    char            __pad0001[0x8];
+    bool            FullAuto;
+    char            __pad0002[0xB];
+    float           WeaponArmorRatio;
+    float           MaxPlayerSpeed;
+    float           MaxPlayerSpeedAlt;
+    char            __pad0003[0x8];
+    float           Penetration;
+    int             Damage;
+    float           Range;
+    float           RangeModifier;
+    char            __pad0004[0x1AC];
+    float           Spread;
+    char            __pad0005[0x490];
+    int             ZoomLevels;
+};
+
+class CCSWeaponInfo : public FileWeaponInfo_t {
 public:
-    CSWeaponType GetWeaponType()
-    {
+    WeaponCSInfo_t GetFullInfo() {
+        return *(WeaponCSInfo_t*)((uintptr_t)this + 0x864);
+    }
+
+    CSWeaponType GetWeaponType() {
         return *(CSWeaponType*)((uintptr_t)this + 0x864);
     }
 
-    bool IsFullAuto()
-    {
+    bool IsFullAuto() {
         return *(bool*)((uintptr_t)this + 0x870);
     }
 
-    float GetWeaponArmorRatio()
-    {
+    float GetWeaponArmorRatio() {
         return *(float*)((uintptr_t)this + 0x87C);
     }
 
-    float GetMaxPlayerSpeed()
-    {
+    float GetMaxPlayerSpeed() {
         return *(float*)((uintptr_t)this + 0x880);
     }
 
-    float GetMaxPlayerSpeedAlt()
-    {
+    float GetMaxPlayerSpeedAlt() {
         return *(float*)((uintptr_t)this + 0x884);
     }
 
-    float GetPenetration()
-    {
+    float GetPenetration() {
         return *(float*)((uintptr_t)this + 0x890);
     }
 
-    int GetDamage()
-    {
+    int GetDamage() {
         return *(int*)((uintptr_t)this + 0x894);
     }
-    
-    float GetRange()
-    {
+
+    float GetRange() {
         return *(float*)((uintptr_t)this + 0x898);
     }
-    
-    float GetRangeModifier()
-    {
+
+    float GetRangeModifier() {
         return *(float*)((uintptr_t)this + 0x89C);
     }
-    
-    float GetSpread()
-    {
+
+    float GetSpread() {
         return *(float*)((uintptr_t)this + 0xA4C);
     }
-    
-    int GetZoomLevels()
-    {
+
+    int GetZoomLevels() {
         return *(int*)((uintptr_t)this + 0xEE0);
     }
 };

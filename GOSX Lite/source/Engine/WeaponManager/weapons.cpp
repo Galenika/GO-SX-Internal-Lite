@@ -12,55 +12,55 @@ int CWeaponManager::getDelay(int weaponID) {
     if (isPistol(weaponID) && weaponID != EItemDefinitionIndex::weapon_tec9) {
         return 70;
     }
-    
+
     if (isShotgun(weaponID)) {
         return 30;
     }
-    
+
     if (isSniper(weaponID)) {
         return 100;
     }
-    
+
     return 3;
 }
 
 bool CWeaponManager::isKnife(int weaponID) {
     if (
-       weaponID == EItemDefinitionIndex::weapon_knife ||
-       weaponID == EItemDefinitionIndex::weapon_knife_t ||
-       weaponID == EItemDefinitionIndex::weapon_bayonet ||
-       weaponID == EItemDefinitionIndex::weapon_knife_flip ||
-       weaponID == EItemDefinitionIndex::weapon_knife_gut ||
-       weaponID == EItemDefinitionIndex::weapon_knife_karambit ||
-       weaponID == EItemDefinitionIndex::weapon_knife_m9_bayonet ||
-       weaponID == EItemDefinitionIndex::weapon_knife_tactical ||
-       weaponID == EItemDefinitionIndex::weapon_knife_falchion ||
-       weaponID == EItemDefinitionIndex::weapon_knife_survival_bowie ||
-       weaponID == EItemDefinitionIndex::weapon_knife_butterfly ||
-       weaponID == EItemDefinitionIndex::weapon_knife_push
+        weaponID == EItemDefinitionIndex::weapon_knife ||
+        weaponID == EItemDefinitionIndex::weapon_knife_t ||
+        weaponID == EItemDefinitionIndex::weapon_bayonet ||
+        weaponID == EItemDefinitionIndex::weapon_knife_flip ||
+        weaponID == EItemDefinitionIndex::weapon_knife_gut ||
+        weaponID == EItemDefinitionIndex::weapon_knife_karambit ||
+        weaponID == EItemDefinitionIndex::weapon_knife_m9_bayonet ||
+        weaponID == EItemDefinitionIndex::weapon_knife_tactical ||
+        weaponID == EItemDefinitionIndex::weapon_knife_falchion ||
+        weaponID == EItemDefinitionIndex::weapon_knife_survival_bowie ||
+        weaponID == EItemDefinitionIndex::weapon_knife_butterfly ||
+        weaponID == EItemDefinitionIndex::weapon_knife_push
     ) {
         return true;
     }
-    
+
     return false;
 }
 
 bool CWeaponManager::IsValidWeapon(int weaponID) {
-    return (!isGrenade(weaponID) && !isKnife(weaponID) && !isC4(weaponID));
+    return !isGrenade(weaponID) && !isKnife(weaponID) && !isC4(weaponID);
 }
 
 bool CWeaponManager::isGrenade(int weaponID) {
     if (
-       weaponID == EItemDefinitionIndex::weapon_flashbang ||
-       weaponID == EItemDefinitionIndex::weapon_hegrenade ||
-       weaponID == EItemDefinitionIndex::weapon_smokegrenade ||
-       weaponID == EItemDefinitionIndex::weapon_molotov ||
-       weaponID == EItemDefinitionIndex::weapon_decoy ||
-       weaponID == EItemDefinitionIndex::weapon_incgrenade
+        weaponID == EItemDefinitionIndex::weapon_flashbang ||
+        weaponID == EItemDefinitionIndex::weapon_hegrenade ||
+        weaponID == EItemDefinitionIndex::weapon_smokegrenade ||
+        weaponID == EItemDefinitionIndex::weapon_molotov ||
+        weaponID == EItemDefinitionIndex::weapon_decoy ||
+        weaponID == EItemDefinitionIndex::weapon_incgrenade
     ) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -68,27 +68,27 @@ bool CWeaponManager::isC4(int weaponID) {
     if (weaponID == EItemDefinitionIndex::weapon_c4) {
         return true;
     }
-    
+
     return false;
 }
 
 bool CWeaponManager::isPistol(int weaponID) {
     if (
-       weaponID == EItemDefinitionIndex::weapon_deagle ||
-       weaponID == EItemDefinitionIndex::weapon_elite ||
-       weaponID == EItemDefinitionIndex::weapon_fiveseven ||
-       weaponID == EItemDefinitionIndex::weapon_glock ||
-       weaponID == EItemDefinitionIndex::weapon_tec9 ||
-       weaponID == EItemDefinitionIndex::weapon_taser ||
-       weaponID == EItemDefinitionIndex::weapon_hkp2000 ||
-       weaponID == EItemDefinitionIndex::weapon_p250 ||
-       weaponID == EItemDefinitionIndex::weapon_usp_silencer ||
-       weaponID == EItemDefinitionIndex::weapon_cz75a ||
-       weaponID == EItemDefinitionIndex::weapon_revolver
+        weaponID == EItemDefinitionIndex::weapon_deagle ||
+        weaponID == EItemDefinitionIndex::weapon_elite ||
+        weaponID == EItemDefinitionIndex::weapon_fiveseven ||
+        weaponID == EItemDefinitionIndex::weapon_glock ||
+        weaponID == EItemDefinitionIndex::weapon_tec9 ||
+        weaponID == EItemDefinitionIndex::weapon_taser ||
+        weaponID == EItemDefinitionIndex::weapon_hkp2000 ||
+        weaponID == EItemDefinitionIndex::weapon_p250 ||
+        weaponID == EItemDefinitionIndex::weapon_usp_silencer ||
+        weaponID == EItemDefinitionIndex::weapon_cz75a ||
+        weaponID == EItemDefinitionIndex::weapon_revolver
     ) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -101,21 +101,21 @@ bool CWeaponManager::isShotgun(int weaponID) {
     ) {
         return true;
     }
-    
+
     return false;
 }
 
 
 bool CWeaponManager::isSniper(int weaponID) {
     if (
-       weaponID == EItemDefinitionIndex::weapon_g3sg1 ||
-       weaponID == EItemDefinitionIndex::weapon_scar20 ||
-       weaponID == EItemDefinitionIndex::weapon_ssg08 ||
-       weaponID == EItemDefinitionIndex::weapon_awp
+        weaponID == EItemDefinitionIndex::weapon_g3sg1 ||
+        weaponID == EItemDefinitionIndex::weapon_scar20 ||
+        weaponID == EItemDefinitionIndex::weapon_ssg08 ||
+        weaponID == EItemDefinitionIndex::weapon_awp
     ) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -124,29 +124,35 @@ bool CWeaponManager::needsSmooth(int weaponID) {
     if (isSniper(weaponID)) {
         ret = false;
     }
-    
+
     if (isShotgun(weaponID)) {
         ret = false;
     }
-    
+
     return ret;
 }
 
 bool CWeaponManager::isRCSWeapon(int weaponID) {
     bool ret = true;
 
-    if (isSniper(weaponID)) {
+    if (
+        isSniper(weaponID) &&
+        (
+         weaponID != EItemDefinitionIndex::weapon_scar20 ||
+         weaponID != EItemDefinitionIndex::weapon_g3sg1
+        )
+    ) {
         ret = false;
     }
-    
+
     if (isPistol(weaponID) && weaponID != EItemDefinitionIndex::weapon_cz75a) {
         ret = false;
     }
-    
+
     if (isShotgun(weaponID)) {
         ret = false;
     }
-    
+
     return ret;
 }
 
@@ -166,12 +172,17 @@ bool CWeaponManager::IsScopeWeapon(int weaponID) {
 }
 
 bool CWeaponManager::isNonAimWeapon(int weaponID) {
+    if (INIGET_BOOL("Rage", "enabled")) {
+        return false;
+    }
+
+    if (INIGET_BOOL("AimHelper", "autosniper_aim")) {
+        return false;
+    }
+
     if (
-        !INIGET_BOOL("AimHelper", "autosniper_aim") &&
-        (
-            weaponID == EItemDefinitionIndex::weapon_scar20 ||
-            weaponID == EItemDefinitionIndex::weapon_g3sg1
-        )
+        weaponID == EItemDefinitionIndex::weapon_scar20 ||
+        weaponID == EItemDefinitionIndex::weapon_g3sg1
     ) {
         return true;
     }

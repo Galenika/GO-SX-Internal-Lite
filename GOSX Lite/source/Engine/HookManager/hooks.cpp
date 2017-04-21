@@ -7,7 +7,7 @@ namespace HookManager
     VMT* g_pModelRender = nullptr;
     VMT* g_pClientMode  = nullptr;
     VMT* g_pGameEvent   = nullptr;
-
+    VMT* g_pPrediction  = nullptr;
     RecvVarProxyFn g_pSequence = nullptr;
 
     CDrawings* drawManager = nullptr;
@@ -27,15 +27,13 @@ namespace HookManager
         g_pClientMode   = new VMT(Interfaces::ClientMode());
         while(!Interfaces::GameEventManager()) { usleep(500000); }
         g_pGameEvent    = new VMT(Interfaces::GameEventManager());
+        while(!Interfaces::Prediction()) { usleep(500000); }
+        g_pPrediction   = new VMT(Interfaces::Prediction());
 
         NetvarManager::Instance()->CreateDatabase();
 
         g_pPanel->HookVM((void*)HPaintTraverse, INDEX_PAINTTRAVERSE);
         g_pPanel->ApplyVMT();
-
-        while(!Interfaces::Engine()->IsInGame()) {
-            usleep(200000);
-        }
 
         g_pClient->HookVM((void*)HFrameStageNotify, INDEX_FRAMESTAGENOTIFY);
         g_pClient->HookVM((void*)HINKeyEvent, INDEX_INKEYEVENT);
@@ -43,6 +41,9 @@ namespace HookManager
 
         g_pModelRender->HookVM((void*)HDrawModelExecute, INDEX_DRAWMODELEXECUTE);
         g_pModelRender->ApplyVMT();
+
+        g_pPrediction->HookVM((void*)HRunCommand, INDEX_RUNCOMMAND);
+        g_pPrediction->ApplyVMT();
 
         g_pClientMode->HookVM((void*)HCreateMove, INDEX_CREATEMOVE);
         g_pClientMode->ApplyVMT();
@@ -214,6 +215,14 @@ namespace HookManager
         }
 
         return g_pSequence(pData, pStruct, pOut);
+    }
+
+    void HRunCommand(void* thisptr, C_BaseEntity* pLocal, CUserCmd* pCmd, void* pHelper) {
+        g_pPrediction->GetOriginalMethod<RunCommandFn>(20)(thisptr, pLocal, pCmd, pHelper);
+
+        if (!Interfaces::HasMoveHelper()) {
+            Interfaces::SetMoveHelper((IMoveHelper*)pHelper);
+        }
     }
 }
 

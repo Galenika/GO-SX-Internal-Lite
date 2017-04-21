@@ -63,8 +63,10 @@ private:
     void DrawColorSlider(const char *section, const char* key, int x, int y, int value, Color colorValue);
     void DrawInputField(const char *section, const char *key, int x, int y, std::string value);
     void DrawSelectField(const char *section, const char *key, int x, int y, int value, std::map<int, const char*> list, std::map<int, const char*> values);
+    void DrawSelectField(const char *section, const char *key, int x, int y, std::map<int, const char*> list, std::map<int, const char*> values, CSettingsManager* config);
     void SaveMousePosition();
-    bool IsMouseOverThis(int x, int y, int w, int h);
+    bool IsMouseOverThis(int x, int y, int w, int h, bool isSelect = false);
+    void DrawActiveSelect();
 protected:
     static CHackMenu* instance;
     CDrawings* dMgr = nullptr;
@@ -97,6 +99,14 @@ protected:
     std::map<int, const char*> indexTab;
     std::map<const char*, int> menuIndex;
     std::map<int, const char*> indexMenu;
+
+    bool IsSelectOpen = false;
+    int activeSelectBaseX;
+    int activeSelectBaseY;
+    const char* activeSelectSection;
+    const char* activeSelectKey;
+    std::map<int, const char*> activeSelectList;
+    std::map<int, const char*> activeSelectValues;
 };
 
 #endif /* menu_h */

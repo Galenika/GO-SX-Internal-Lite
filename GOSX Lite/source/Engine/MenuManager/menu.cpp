@@ -1,16 +1,18 @@
-//
-//  menu.cpp
-//  GOSX Pro
-//
-//  Created by Andre Kalisch on 02.03.17.
-//  Copyright © 2017 Andre Kalisch. All rights reserved.
-//
+    //
+    //  menu.cpp
+    //  GOSX Pro
+    //
+    //  Created by Andre Kalisch on 02.03.17.
+    //  Copyright © 2017 Andre Kalisch. All rights reserved.
+    //
 
 #include "menu.h"
-#include "KeyStroke.h"
-#include "Engine/FeatureManager/Features/Aim.h"
 #include "Engine/FeatureManager/Features/ClantagChanger.h"
 #include "Engine/FeatureManager/Features/Chams.h"
+#include "Engine/FeatureManager/Features/Aim.h"
+#include "Engine/FeatureManager/Features/AntiAim.h"
+#include "Engine/FeatureManager/Features/EnginePrediction.h"
+#include "KeyStroke.h"
 
 CHackMenu* CHackMenu::instance = nullptr;
 
@@ -48,7 +50,7 @@ void CHackMenu::CloseMenu() {
 
 void CHackMenu::HandleInput(int keynum) {
     if (keynum == ButtonCode_t::KEY_ENTER) {
-        
+
     } else if (keynum == ButtonCode_t::KEY_SPACE) {
         m_szCurrentString[activeInput].append(" ");
         m_nCurrentPos[activeInput]++;
@@ -59,10 +61,10 @@ void CHackMenu::HandleInput(int keynum) {
             m_nCurrentPos[activeInput]--;
         }
     } else if (
-        keynum >= ButtonCode_t::KEY_0 &&
-        keynum <= ButtonCode_t::KEY_EQUAL &&
-        m_szCurrentString[activeInput].length() <= 114
-    ) {
+               keynum >= ButtonCode_t::KEY_0 &&
+               keynum <= ButtonCode_t::KEY_EQUAL &&
+               m_szCurrentString[activeInput].length() <= 114
+               ) {
 
         if (Functions::IsKeyPressed(kVK_Shift) || Functions::IsKeyPressed(kVK_RightShift)) {
             m_szCurrentString[activeInput].append(m_KeyStroke[keynum].m_szShiftDefinition);
@@ -155,6 +157,8 @@ void CHackMenu::DrawMenu() {
         }
     }
 
+    DrawActiveSelect();
+
     int mox, moy;
     Interfaces::Surface()->SurfaceGetCursorPos(mox, moy);
     DrawMouseCursor(mox, moy);
@@ -185,7 +189,11 @@ void CHackMenu::DrawMouseCursor(int mx, int my) {
     dMgr->DrawLine(mx + 19, my + 9, mx + 19, my + 10, MouseColor);
 }
 
-bool CHackMenu::IsMouseOverThis(int x, int y, int w, int h) {
+bool CHackMenu::IsMouseOverThis(int x, int y, int w, int h, bool isSelect) {
+    if (!isSelect && IsSelectOpen) {
+        return false;
+    }
+
     int mox, moy;
     Interfaces::Surface()->SurfaceGetCursorPos(mox, moy);
 
@@ -194,7 +202,7 @@ bool CHackMenu::IsMouseOverThis(int x, int y, int w, int h) {
         mox <= x + w &&
         moy >= y &&
         moy <= y + h
-    ) {
+        ) {
         return true;
     } else {
         return false;
@@ -268,7 +276,7 @@ void CHackMenu::AddMenuItem(const char *section, const char* key, int col, int r
             dMgr->DrawRect(CheckboxBaseX + 4, CheckboxBaseY + 4, 8, 8, MENUGET_COLOR("Colors", "colored_normal"), true);
         }
     } else if (type == FieldType_t::FIELDTYPE_FLOAT) {
-        DrawSlider(section, key, ButtonBaseX, ButtonBaseY, INIGET_FLOAT(section, key), 0.0f, INIGET_FLOAT("MaxValues", key));
+        DrawSlider(section, key, ButtonBaseX, ButtonBaseY, INIGET_FLOAT(section, key), INIGET_FLOAT("MinValues", key), INIGET_FLOAT("MaxValues", key));
     } else if (type == FieldType_t::FIELDTYPE_INT) {
         DrawPercentSlider(section, key, ButtonBaseX, ButtonBaseY, INIGET_INT(section, key), 0, 100);
     } else if (type == FieldType_t::FIELDTYPE_COLOR) {
@@ -290,6 +298,18 @@ void CHackMenu::AddMenuItem(const char *section, const char* key, int col, int r
         if(!strcmp(section, "Chams") && !strcmp(key, "chams_type")) {
             list = CChams::GetChamList();
             values = CChams::GetChamValues();
+        }
+        if (!strcmp(section, "Rage") && !strcmp(key, "antiaim_pitch")) {
+            list = CAntiAim::GetPitchList();
+            values = CAntiAim::GetPitchValues();
+        }
+        if (!strcmp(section, "Rage") && !strcmp(key, "antiaim_yaw")) {
+            list = CAntiAim::GetYawList();
+            values = CAntiAim::GetYawValues();
+        }
+        if (!strcmp(section, "Rage") && !strcmp(key, "engine_predict_mode")) {
+            list = CEnginePrediction::GetModeList();
+            values = CEnginePrediction::GetModeValues();
         }
         DrawSelectField(section, key, ButtonBaseX, ButtonBaseY, INIGET_INT(section, key), list, values);
     }
@@ -367,17 +387,18 @@ void CHackMenu::DrawSlider(const char *section, const char* key, int x, int y, f
     int SliderBaseX = (x + MENUGET_INT("Sizes", "button_w")) - (SliderWidth + 5);
     int SliderBaseY = y + 19;
 
-    int sliderPercent = (int)(value / maxValue * 100);
+    float rangeValue = (0 - minValue) + maxValue;
+    int sliderPercent = (int)(value / rangeValue * 100);
 
     dMgr->DrawRect(SliderBaseX, SliderBaseY, SliderWidth, 4, MENUGET_COLOR("Colors", "slider_background"), true);
     dMgr->DrawRect(SliderBaseX, SliderBaseY, sliderPercent, 4, MENUGET_COLOR("Colors", "colored_normal"), true);
 
-    int PointerBaseX = (SliderBaseX - 3) + sliderPercent;
+    int PointerBaseX = (SliderBaseX - 6) + sliderPercent;
     int PointerBaseY = SliderBaseY - 4;
 
-    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 6, 12)) {
+    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 12, 16)) {
         if (Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT)) {
-            int PixelFromBaseX = 0;
+            int PixelFromBaseX = SliderWidth / 2;
             int mouseX, mouseY;
             Interfaces::Surface()->SurfaceGetCursorPos(mouseX, mouseY);
             if (mouseX > SliderBaseX + SliderWidth) {
@@ -387,23 +408,30 @@ void CHackMenu::DrawSlider(const char *section, const char* key, int x, int y, f
             }
             if (mouseX != lastMousePosX) {
                 PixelFromBaseX = mouseX - SliderBaseX;
-                value = (float)(maxValue / 100 * PixelFromBaseX);
-                sliderPercent = (int)(value / maxValue * 100);
-                PointerBaseX = (SliderBaseX - 4) + sliderPercent;
+                value = (float)(rangeValue / 100 * PixelFromBaseX);
+                sliderPercent = (int)(value / rangeValue * 100);
+                PointerBaseX = (SliderBaseX - 6) + sliderPercent;
                 CSettingsManager::Instance("settings.ini")->SetDoubleValue(section, key, (double)value);
             }
         }
     }
 
-    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 6, 12, Color(0, 0, 0));
-    dMgr->DrawRect(PointerBaseX, PointerBaseY, 6, 12, MENUGET_COLOR("Colors", "colored_highlight"), true);
+    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 12, 16, Color(0, 0, 0));
+    dMgr->DrawRect(PointerBaseX, PointerBaseY, 12, 16, MENUGET_COLOR("Colors", "colored_highlight"), true);
 
     if (!sliderFont) {
         sliderFont = dMgr->GetFont(MENUGET_STRING("Main", "menu_font"), 12, FontFlags::FONTFLAG_ANTIALIAS);
     }
 
+    float outputvalue;
+    if (minValue < 0.f) {
+        outputvalue = value - maxValue;
+    } else {
+        outputvalue = value;
+    }
+
     char stringValue[128];
-    sprintf(stringValue, "%f", value);
+    sprintf(stringValue, "%f", outputvalue);
 
     dMgr->DrawShadowString(sliderFont, SliderBaseX + 15, SliderBaseY - 13, MENUGET_COLOR("Colors", "label_text"), false, stringValue);
 }
@@ -419,10 +447,10 @@ void CHackMenu::DrawPercentSlider(const char *section, const char* key, int x, i
     dMgr->DrawRect(SliderBaseX, SliderBaseY, SliderWidth, 4, MENUGET_COLOR("Colors", "slider_background"), true);
     dMgr->DrawRect(SliderBaseX, SliderBaseY, sliderPercent, 4, MENUGET_COLOR("Colors", "colored_normal"), true);
 
-    int PointerBaseX = (SliderBaseX - 3) + sliderPercent;
+    int PointerBaseX = (SliderBaseX - 6) + sliderPercent;
     int PointerBaseY = SliderBaseY - 4;
 
-    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 6, 12)) {
+    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 12, 16)) {
         if (Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT)) {
             int PixelFromBaseX = 0;
             int mouseX, mouseY;
@@ -436,21 +464,21 @@ void CHackMenu::DrawPercentSlider(const char *section, const char* key, int x, i
                 PixelFromBaseX = mouseX - SliderBaseX;
                 value = PixelFromBaseX;
                 sliderPercent = value;
-                PointerBaseX = (SliderBaseX - 3) + sliderPercent;
+                PointerBaseX = (SliderBaseX - 6) + sliderPercent;
                 CSettingsManager::Instance("settings.ini")->SetIntValue(section, key, (int)value);
             }
         }
     }
 
-    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 6, 12, Color(0, 0, 0));
-    dMgr->DrawRect(PointerBaseX, PointerBaseY, 6, 12, MENUGET_COLOR("Colors", "colored_highlight"), true);
+    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 12, 16, Color(0, 0, 0));
+    dMgr->DrawRect(PointerBaseX, PointerBaseY, 12, 16, MENUGET_COLOR("Colors", "colored_highlight"), true);
 
     if (!sliderFont) {
         sliderFont = dMgr->GetFont(MENUGET_STRING("Main", "menu_font"), 12, FontFlags::FONTFLAG_ANTIALIAS);
     }
 
     char stringValue[128];
-    sprintf(stringValue, "%i%%", value);
+    sprintf(stringValue, "%i %%", value);
 
     dMgr->DrawShadowString(sliderFont, SliderBaseX + 15, SliderBaseY - 13, MENUGET_COLOR("Colors", "label_text"), false, stringValue);
 }
@@ -470,10 +498,10 @@ void CHackMenu::DrawColorSlider(const char *section, const char* key, int x, int
     dMgr->DrawRect(SliderBaseX, SliderBaseY, SliderWidth, 4, MENUGET_COLOR("Colors", "slider_background"), true);
     dMgr->DrawRect(SliderBaseX, SliderBaseY, (int)floor(sliderPercent + 0.5), 4, colorValue, true);
 
-    int PointerBaseX = (SliderBaseX - 3) + (int)floor(sliderPercent + 0.5);
+    int PointerBaseX = (SliderBaseX - 6) + (int)floor(sliderPercent + 0.5);
     int PointerBaseY = SliderBaseY - 4;
 
-    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 6, 12)) {
+    if (IsMouseOverThis(PointerBaseX, PointerBaseY, 12, 16)) {
         if (Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT)) {
             int PixelFromBaseX = 0;
             int mouseX, mouseY;
@@ -487,7 +515,7 @@ void CHackMenu::DrawColorSlider(const char *section, const char* key, int x, int
                 PixelFromBaseX = mouseX - SliderBaseX;
                 calcValue = static_cast<double>(255) / 100 * PixelFromBaseX;
                 sliderPercent = calcValue / 255 * 100;
-                PointerBaseX = (SliderBaseX - 3) + (int)floor(sliderPercent + 0.5);
+                PointerBaseX = (SliderBaseX - 6) + (int)floor(sliderPercent + 0.5);
                 Color currentColor = INIGET_COLOR(section, key);
                 if (isRed) {
                     currentColor.SetR((int)floor(calcValue + 0.5));
@@ -502,8 +530,8 @@ void CHackMenu::DrawColorSlider(const char *section, const char* key, int x, int
         }
     }
 
-    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 6, 12, Color(0, 0, 0), true);
-    dMgr->DrawRect(PointerBaseX, PointerBaseY, 6, 12, MENUGET_COLOR("Colors", "colored_highlight"), true);
+    dMgr->DrawRect(PointerBaseX + 1, PointerBaseY + 1, 12, 16, Color(0, 0, 0), true);
+    dMgr->DrawRect(PointerBaseX, PointerBaseY, 12, 16, MENUGET_COLOR("Colors", "colored_highlight"), true);
 
     if (!colorSliderFont) {
         colorSliderFont = dMgr->GetFont(MENUGET_STRING("Main", "menu_font"), 12, FontFlags::FONTFLAG_ANTIALIAS);
@@ -511,7 +539,6 @@ void CHackMenu::DrawColorSlider(const char *section, const char* key, int x, int
 
     char stringValue[128];
     sprintf(stringValue, "%i", (int)floor(calcValue + 0.5));
-    dMgr->DrawShadowString(colorSliderFont, SliderBaseX - 29, SliderBaseY + 1, Color(0, 0, 0), false, stringValue);
     dMgr->DrawShadowString(colorSliderFont, SliderBaseX - 30, SliderBaseY, MENUGET_COLOR("Colors", "label_text"), false, stringValue);
 }
 
@@ -576,6 +603,12 @@ void CHackMenu::DrawSelectField(const char *section, const char *key, int x, int
         if (mouseReleased && activeSelect != selectIndex) {
             borderColor = MENUGET_COLOR("Colors", "colored_highlight");
             activeSelect = selectIndex;
+            activeSelectList = list;
+            activeSelectValues = values;
+            activeSelectBaseX = SelectBaseX;
+            activeSelectBaseY = SelectBaseY;
+            activeSelectSection = section;
+            activeSelectKey = key;
             mouseReleased = false;
         }
     }
@@ -594,25 +627,44 @@ void CHackMenu::DrawSelectField(const char *section, const char *key, int x, int
 
     dMgr->DrawString(1, SelectBaseX + 5, SelectBaseY + 6, MENUGET_COLOR("Colors", "input_text"), false, selectedValue);
 
-    if (activeSelect == selectIndex) {
-        int OptionHeight = MENUGET_INT("Sizes", "option_h");
-        int marginTop = SelectBaseY + 1;
-        int marginRight = SelectBaseX + 1;
-        for (int i = 0; i < (int)values.size(); i++) {
-            dMgr->DrawRect(marginRight, marginTop, SelectFieldWidth - 1, OptionHeight, MENUGET_COLOR("Colors", "input_background"));
-            dMgr->DrawString(1, marginRight + 4, marginTop + 5, MENUGET_COLOR("Colors", "input_text"), false, values[i]);
+    selectIndex++;
+}
 
-            if (IsMouseOverThis(marginRight, marginTop, SelectFieldWidth, OptionHeight)) {
-                if (mouseReleased) {
-                    CSettingsManager::Instance("settings.ini")->SetIntValue(section, key, i);
-                    activeSelect = 0;
-                    mouseReleased = true;
-                }
-            }
+void CHackMenu::DrawSelectField(const char *section, const char *key, int x, int y, std::map<int, const char*> list, std::map<int, const char*> values, CSettingsManager* config) {
+    int SelectFieldWidth = MENUGET_INT("Sizes", "select_field_w");
+    int SelectFieldHeight = MENUGET_INT("Sizes", "select_field_h");
 
-            marginTop += OptionHeight;
+    int SelectBaseX = x + MENUGET_INT("Sizes", "button_w") - (SelectFieldWidth + 5 + SelectFieldHeight);
+    int SelectBaseY = y + 3;
+
+    Color borderColor = MENUGET_COLOR("Colors", "colored_normal");
+    if (IsMouseOverThis(SelectBaseX, SelectBaseY, SelectFieldWidth + SelectFieldHeight, SelectFieldHeight)) {
+        if (mouseReleased && activeSelect != selectIndex) {
+            borderColor = MENUGET_COLOR("Colors", "colored_highlight");
+            activeSelect = selectIndex;
+            activeSelectList = list;
+            activeSelectValues = values;
+            activeSelectBaseX = SelectBaseX;
+            activeSelectBaseY = SelectBaseY;
+            activeSelectSection = section;
+            activeSelectKey = key;
+            mouseReleased = false;
         }
     }
+
+    dMgr->DrawRect(SelectBaseX, SelectBaseY, SelectFieldWidth + SelectFieldHeight, SelectFieldHeight, MENUGET_COLOR("Colors", "input_background"));
+    dMgr->DrawOutlineRect(SelectBaseX, SelectBaseY, SelectFieldWidth + SelectFieldHeight, SelectFieldHeight, borderColor);
+
+    bool directionDown = true;
+    if (activeSelect == selectIndex) {
+        directionDown = false;
+    }
+    dMgr->DrawTriangle(14, 7, Color(0, 0, 0), SelectBaseX + SelectFieldWidth + 5, SelectBaseY + 9, directionDown);
+    dMgr->DrawTriangle(14, 7, borderColor, SelectBaseX + SelectFieldWidth + 5, SelectBaseY + 9, directionDown);
+    int value = config->GetSetting<int>(section, key);
+    const char* selectedValue = values[value];
+
+    dMgr->DrawString(1, SelectBaseX + 5, SelectBaseY + 6, MENUGET_COLOR("Colors", "input_text"), false, selectedValue);
 
     selectIndex++;
 }
@@ -623,5 +675,33 @@ void CHackMenu::SaveMousePosition() {
     if (!Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT)) {
         lastMousePosX = mox;
         lastMousePosY = moy;
+    }
+}
+
+void CHackMenu::DrawActiveSelect() {
+    if (activeSelect == 0) {
+        return;
+    }
+    IsSelectOpen = true;
+
+    int SelectFieldWidth = MENUGET_INT("Sizes", "select_field_w");
+
+    int OptionHeight = MENUGET_INT("Sizes", "option_h");
+    int marginTop = activeSelectBaseY + 1;
+    int marginRight = activeSelectBaseX + 1;
+    for (int i = 0; i < (int)activeSelectValues.size(); i++) {
+        dMgr->DrawRect(marginRight, marginTop, SelectFieldWidth - 1, OptionHeight, MENUGET_COLOR("Colors", "input_background"));
+        dMgr->DrawString(1, marginRight + 4, marginTop + 5, MENUGET_COLOR("Colors", "input_text"), false, activeSelectValues[i]);
+        
+        if (IsMouseOverThis(marginRight, marginTop, SelectFieldWidth, OptionHeight, true)) {
+            if (mouseReleased) {
+                CSettingsManager::Instance("settings.ini")->SetIntValue(activeSelectSection, activeSelectKey, i);
+                activeSelect = 0;
+                IsSelectOpen = false;
+                mouseReleased = true;
+            }
+        }
+        
+        marginTop += OptionHeight;
     }
 }

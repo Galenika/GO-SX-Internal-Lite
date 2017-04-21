@@ -71,6 +71,25 @@ public:
         typedef CCSWeaponInfo* (* oGetCSWpnData)(void*);
         return Internal::getvfunc<oGetCSWpnData>(this, 524)(this);
     }
+
+    float GetInaccuracy() {
+        typedef float (*oGetInaccuracy)(void*);
+        return Internal::getvfunc<oGetInaccuracy>(this, 552)(this);
+    }
+
+    float GetSpread() {
+        typedef float (*oGetSpread)(void*);
+        return Internal::getvfunc<oGetSpread>(this, 553)(this);
+    }
+
+    void UpdateAccuracyPenalty() {
+        typedef void (*oUpdateAccuracyPenalty)(void*);
+        return Internal::getvfunc<oUpdateAccuracyPenalty>(this, 554)(this);
+    }
+
+    bool CanShoot() {
+        return GetAmmo() > 0;
+    }
 };
 
 
@@ -123,6 +142,14 @@ public:
     {
         return GetFieldValue<int>(GET_NETVAR("DT_BasePlayer", "m_iHealth"));
     }
+    int GetArmor()
+    {
+        return GetFieldValue<int>(GET_NETVAR("DT_CSPlayer", "m_ArmorValue"));
+    }
+    bool HasHelmet()
+    {
+        return GetFieldValue<bool>(GET_NETVAR("DT_CSPlayer", "m_bHasHelmet"));
+    }
     bool IsAlive()
     {
         return GetFieldValue<int>(GET_NETVAR("DT_BasePlayer", "m_lifeState")) == 0;
@@ -131,9 +158,9 @@ public:
     {
         return GetFieldValue<int>(GET_NETVAR("DT_BaseEntity", "m_iTeamNum"));
     }
-    int GetFlags()
+    int* GetFlags()
     {
-        return GetFieldValue<int>(GET_NETVAR("DT_BasePlayer", "m_fFlags"));
+        return GetFieldPointer<int>(GET_NETVAR("DT_BasePlayer", "m_fFlags"));
     }
     bool IsScoped() {
         return GetFieldValue<bool>(GET_NETVAR("DT_CSPlayer", "m_bIsScoped"));
@@ -147,6 +174,10 @@ public:
 
     Vector GetEyePos()
     {
+        if (INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "engine_predict")) {
+            return GetPredictedPosition(GetViewOffset() + GetOrigin());
+        }
+
         return GetViewOffset() + GetOrigin();
     }
 
@@ -203,6 +234,17 @@ public:
     {
         uint64_t m_flMaxFlashAlpha = GET_NETVAR("DT_CSPlayer", "m_flFlashMaxAlpha");
         return GetFieldPointer<float>(m_flMaxFlashAlpha);
+    }
+
+    unsigned int GetTickBase()
+    {
+        uintptr_t m_nTickBase = GET_NETVAR("DT_BasePlayer", "localdata", "m_nTickBase");
+        return GetFieldValue<unsigned int>(m_nTickBase);
+    }
+
+    float GetLowerBodyYawTarget() {
+        uintptr_t m_flLowerBodyYawTarget = GET_NETVAR("DT_CSPlayer", "m_flLowerBodyYawTarget");
+        return GetFieldValue<float>(m_flLowerBodyYawTarget);
     }
 
     Vector GetHitboxPosition(int Hitbox)
@@ -339,7 +381,7 @@ public:
     
     bool IsOnGround()
     {
-        return GetFlags() & (int)EntityFlags::FL_ONGROUND;
+        return *GetFlags() & (int)EntityFlags::FL_ONGROUND;
     }
 
     const char* GetClan() {

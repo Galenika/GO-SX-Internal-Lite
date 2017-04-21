@@ -105,6 +105,16 @@
 		D865FCBC1E5B8937001434D3 /* Vector2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8E7A17F1E5B889D00EC9750 /* Vector2D.cpp */; };
 		D865FCBD1E5B8937001434D3 /* Vector4D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8E7A1811E5B889D00EC9750 /* Vector4D.cpp */; };
 		D865FCBE1E5B8937001434D3 /* VMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8E7A1831E5B889D00EC9750 /* VMatrix.cpp */; };
+		D87E9C3B1EA9C543006C7C66 /* AntiAim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D87E9C351EA9C543006C7C66 /* AntiAim.cpp */; };
+		D87E9C3C1EA9C543006C7C66 /* AntiAim.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C361EA9C543006C7C66 /* AntiAim.h */; };
+		D87E9C3D1EA9C543006C7C66 /* AutoWalls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D87E9C371EA9C543006C7C66 /* AutoWalls.cpp */; };
+		D87E9C3E1EA9C543006C7C66 /* AutoWalls.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C381EA9C543006C7C66 /* AutoWalls.h */; };
+		D87E9C3F1EA9C543006C7C66 /* EnginePrediction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D87E9C391EA9C543006C7C66 /* EnginePrediction.cpp */; };
+		D87E9C401EA9C543006C7C66 /* EnginePrediction.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C3A1EA9C543006C7C66 /* EnginePrediction.h */; };
+		D87E9C441EA9C6E5006C7C66 /* IGameMovement.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C411EA9C6E5006C7C66 /* IGameMovement.h */; };
+		D87E9C451EA9C6E5006C7C66 /* IMoveHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C421EA9C6E5006C7C66 /* IMoveHelper.h */; };
+		D87E9C461EA9C6E5006C7C66 /* IPrediction.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C431EA9C6E5006C7C66 /* IPrediction.h */; };
+		D87E9C481EA9C785006C7C66 /* IPhysicsSurfaceProps.h in Headers */ = {isa = PBXBuildFile; fileRef = D87E9C471EA9C785006C7C66 /* IPhysicsSurfaceProps.h */; };
 		D88F3F021E5C0A8100C00A4A /* Esp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D88F3F001E5C0A8100C00A4A /* Esp.cpp */; };
 		D88F3F031E5C0A8100C00A4A /* Esp.h in Headers */ = {isa = PBXBuildFile; fileRef = D88F3F011E5C0A8100C00A4A /* Esp.h */; };
 		D8971FBC1E938AD500197A26 /* ClantagChanger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8971FBA1E938AD500197A26 /* ClantagChanger.cpp */; };
@@ -157,6 +167,16 @@
 		D86F0AF51E839A050035EBA3 /* SkinChanger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkinChanger.cpp; sourceTree = "<group>"; };
 		D86F0AF61E839A050035EBA3 /* SkinChanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinChanger.h; sourceTree = "<group>"; wrapsLines = 0; };
 		D86F0AF91E83A2830035EBA3 /* IVModelInfoClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IVModelInfoClient.h; sourceTree = "<group>"; };
+		D87E9C351EA9C543006C7C66 /* AntiAim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AntiAim.cpp; sourceTree = "<group>"; };
+		D87E9C361EA9C543006C7C66 /* AntiAim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AntiAim.h; sourceTree = "<group>"; };
+		D87E9C371EA9C543006C7C66 /* AutoWalls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AutoWalls.cpp; sourceTree = "<group>"; };
+		D87E9C381EA9C543006C7C66 /* AutoWalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoWalls.h; sourceTree = "<group>"; };
+		D87E9C391EA9C543006C7C66 /* EnginePrediction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnginePrediction.cpp; sourceTree = "<group>"; };
+		D87E9C3A1EA9C543006C7C66 /* EnginePrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnginePrediction.h; sourceTree = "<group>"; };
+		D87E9C411EA9C6E5006C7C66 /* IGameMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGameMovement.h; sourceTree = "<group>"; };
+		D87E9C421EA9C6E5006C7C66 /* IMoveHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMoveHelper.h; sourceTree = "<group>"; };
+		D87E9C431EA9C6E5006C7C66 /* IPrediction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPrediction.h; sourceTree = "<group>"; };
+		D87E9C471EA9C785006C7C66 /* IPhysicsSurfaceProps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPhysicsSurfaceProps.h; sourceTree = "<group>"; };
 		D88F3F001E5C0A8100C00A4A /* Esp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Esp.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D88F3F011E5C0A8100C00A4A /* Esp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Esp.h; sourceTree = "<group>"; };
 		D894D0121E61DD04009C04BE /* CPlayerResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPlayerResource.h; sourceTree = "<group>"; wrapsLines = 0; };
@@ -398,12 +418,20 @@
 			children = (
 				D8D95F0C1E8CC252006A1A58 /* Aim.cpp */,
 				D8D95F0D1E8CC252006A1A58 /* Aim.h */,
+				D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */,
+				D83C68541E93AD44004DB11A /* AlwaysRCS.h */,
+				D87E9C351EA9C543006C7C66 /* AntiAim.cpp */,
+				D87E9C361EA9C543006C7C66 /* AntiAim.h */,
+				D87E9C371EA9C543006C7C66 /* AutoWalls.cpp */,
+				D87E9C381EA9C543006C7C66 /* AutoWalls.h */,
 				D8E7A1201E5B889D00EC9750 /* BunnyHop.cpp */,
 				D8E7A1211E5B889D00EC9750 /* BunnyHop.h */,
 				D8E7A1221E5B889D00EC9750 /* Chams.cpp */,
 				D8E7A1231E5B889D00EC9750 /* Chams.h */,
 				D8971FBA1E938AD500197A26 /* ClantagChanger.cpp */,
 				D8971FBB1E938AD500197A26 /* ClantagChanger.h */,
+				D87E9C391EA9C543006C7C66 /* EnginePrediction.cpp */,
+				D87E9C3A1EA9C543006C7C66 /* EnginePrediction.h */,
 				D88F3F001E5C0A8100C00A4A /* Esp.cpp */,
 				D88F3F011E5C0A8100C00A4A /* Esp.h */,
 				D86581BA1E5DEE4F001D33E8 /* FlashReducer.cpp */,
@@ -412,8 +440,6 @@
 				D86F0AF61E839A050035EBA3 /* SkinChanger.h */,
 				D8E7A1261E5B889D00EC9750 /* TriggerBot.cpp */,
 				D8E7A1271E5B889D00EC9750 /* TriggerBot.h */,
-				D83C68531E93AD44004DB11A /* AlwaysRCS.cpp */,
-				D83C68541E93AD44004DB11A /* AlwaysRCS.h */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -472,6 +498,7 @@
 				D8A5BC551E80430B00DCAA8D /* CBaseEntity.h */,
 				D8BDF70A1E895B820039C292 /* CCSGameRules.h */,
 				D8E7A1451E5B889D00EC9750 /* CCSPlayer.h */,
+				D8BDF70B1E8961690039C292 /* CCSWpnInfo.h */,
 				D8E7A1461E5B889D00EC9750 /* CGlobalVarsBase.h */,
 				D8E7A1471E5B889D00EC9750 /* CGlowObjectManager.h */,
 				D8E7A1481E5B889D00EC9750 /* CHandle.h */,
@@ -506,15 +533,19 @@
 				D86581B51E5DE4CC001D33E8 /* IEngineVGui.h */,
 				D86F0AF41E8398270035EBA3 /* IGameEvent.h */,
 				D86F0AF31E83967B0035EBA3 /* IGameEventManager2.h */,
+				D87E9C411EA9C6E5006C7C66 /* IGameMovement.h */,
 				D8C2CDAA1E7996E400314AB1 /* IGameUI.h */,
 				D8E7A1631E5B889D00EC9750 /* IHandleEntity.h */,
 				D8C0439B1E6F208300C658B5 /* IInput.h */,
 				D8E7A1641E5B889D00EC9750 /* IInputSystem.h */,
 				D8E7A1651E5B889D00EC9750 /* IMaterial.h */,
 				D8E7A1661E5B889D00EC9750 /* IMaterialSystem.h */,
+				D87E9C421EA9C6E5006C7C66 /* IMoveHelper.h */,
 				D8E7A1671E5B889D00EC9750 /* inputsystem */,
 				D8E7A16D1E5B889D00EC9750 /* internal.h */,
 				D8E7A16E1E5B889D00EC9750 /* IPanel.h */,
+				D87E9C471EA9C785006C7C66 /* IPhysicsSurfaceProps.h */,
+				D87E9C431EA9C6E5006C7C66 /* IPrediction.h */,
 				D8E7A16F1E5B889D00EC9750 /* IRenderView.h */,
 				D8E7A1701E5B889D00EC9750 /* ISurface.h */,
 				D8E7A1711E5B889D00EC9750 /* IVDebugOverlay.h */,
@@ -545,7 +576,6 @@
 				D8E7A1831E5B889D00EC9750 /* VMatrix.cpp */,
 				D8E7A1841E5B889D00EC9750 /* VMatrix.h */,
 				D8E7A1851E5B889D00EC9750 /* VPlane.h */,
-				D8BDF70B1E8961690039C292 /* CCSWpnInfo.h */,
 			);
 			path = SDK;
 			sourceTree = "<group>";
@@ -577,6 +607,7 @@
 				D865FC5F1E5B88F7001434D3 /* DrawModelExecute.h in Headers */,
 				D8D95F0F1E8CC252006A1A58 /* Aim.h in Headers */,
 				D865FC611E5B88F7001434D3 /* BunnyHop.h in Headers */,
+				D87E9C3C1EA9C543006C7C66 /* AntiAim.h in Headers */,
 				D865FC621E5B88F7001434D3 /* Chams.h in Headers */,
 				D865FC641E5B88F7001434D3 /* TriggerBot.h in Headers */,
 				D865FC651E5B88F7001434D3 /* FrameStageNotify.h in Headers */,
@@ -586,6 +617,7 @@
 				D865FC691E5B88F7001434D3 /* VMT.h in Headers */,
 				D865FC6A1E5B88F7001434D3 /* nvmngr.h in Headers */,
 				D865FC6C1E5B88F7001434D3 /* pattern.h in Headers */,
+				D87E9C3E1EA9C543006C7C66 /* AutoWalls.h in Headers */,
 				D865FC6D1E5B88F7001434D3 /* weapons.h in Headers */,
 				D865FC6E1E5B88F7001434D3 /* main.h in Headers */,
 				D865FC6F1E5B88F7001434D3 /* CCSPlayer.h in Headers */,
@@ -615,9 +647,12 @@
 				D88F3F031E5C0A8100C00A4A /* Esp.h in Headers */,
 				D865FC851E5B88F7001434D3 /* IClientUnknown.h in Headers */,
 				D865FC861E5B88F7001434D3 /* IConVar.h in Headers */,
+				D87E9C441EA9C6E5006C7C66 /* IGameMovement.h in Headers */,
 				D83C68561E93AD44004DB11A /* AlwaysRCS.h in Headers */,
+				D87E9C401EA9C543006C7C66 /* EnginePrediction.h in Headers */,
 				D865FC871E5B88F7001434D3 /* ICvar.h in Headers */,
 				D86581BD1E5DEE4F001D33E8 /* FlashReducer.h in Headers */,
+				D87E9C461EA9C6E5006C7C66 /* IPrediction.h in Headers */,
 				D865FC891E5B88F7001434D3 /* IEngineTrace.h in Headers */,
 				D865FC8A1E5B88F7001434D3 /* IHandleEntity.h in Headers */,
 				D865FC8B1E5B88F7001434D3 /* IInputSystem.h in Headers */,
@@ -628,6 +663,7 @@
 				D865FC8F1E5B88F7001434D3 /* ButtonCode.h in Headers */,
 				D865FC901E5B88F7001434D3 /* InputEnums.h in Headers */,
 				D865FC911E5B88F7001434D3 /* internal.h in Headers */,
+				D87E9C451EA9C6E5006C7C66 /* IMoveHelper.h in Headers */,
 				D865FC921E5B88F7001434D3 /* IPanel.h in Headers */,
 				D865FC931E5B88F7001434D3 /* IRenderView.h in Headers */,
 				D865FC941E5B88F7001434D3 /* ISurface.h in Headers */,
@@ -646,6 +682,7 @@
 				D865FCA01E5B88F7001434D3 /* Vector.h in Headers */,
 				D865FCA11E5B88F7001434D3 /* Vector2D.h in Headers */,
 				D865FCA21E5B88F7001434D3 /* Vector4D.h in Headers */,
+				D87E9C481EA9C785006C7C66 /* IPhysicsSurfaceProps.h in Headers */,
 				D865FCA31E5B88F7001434D3 /* VMatrix.h in Headers */,
 				D865FCA41E5B88F7001434D3 /* VPlane.h in Headers */,
 			);
@@ -716,9 +753,11 @@
 				D865FCA61E5B8937001434D3 /* CreateMove.cpp in Sources */,
 				D865FCA71E5B8937001434D3 /* DrawModelExecute.cpp in Sources */,
 				D86581BC1E5DEE4F001D33E8 /* FlashReducer.cpp in Sources */,
+				D87E9C3B1EA9C543006C7C66 /* AntiAim.cpp in Sources */,
 				D865FCA91E5B8937001434D3 /* BunnyHop.cpp in Sources */,
 				D8A5BC541E80384D00DCAA8D /* IClientEntity.cpp in Sources */,
 				D8D95F0E1E8CC252006A1A58 /* Aim.cpp in Sources */,
+				D87E9C3F1EA9C543006C7C66 /* EnginePrediction.cpp in Sources */,
 				D865FCAA1E5B8937001434D3 /* Chams.cpp in Sources */,
 				D8971FBC1E938AD500197A26 /* ClantagChanger.cpp in Sources */,
 				D88F3F021E5C0A8100C00A4A /* Esp.cpp in Sources */,
@@ -734,6 +773,7 @@
 				D865FCB31E5B8937001434D3 /* pattern.cpp in Sources */,
 				D865FCB41E5B8937001434D3 /* weapons.cpp in Sources */,
 				D865FCB51E5B8937001434D3 /* main.cpp in Sources */,
+				D87E9C3D1EA9C543006C7C66 /* AutoWalls.cpp in Sources */,
 				D865FCB61E5B8937001434D3 /* CMath.cpp in Sources */,
 				D865FCB71E5B8937001434D3 /* CRC.cpp in Sources */,
 				D865FCB81E5B8937001434D3 /* Func.cpp in Sources */,
@@ -877,7 +917,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/source",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = gosx;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
@@ -902,7 +942,9 @@
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;

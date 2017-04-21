@@ -34,6 +34,7 @@
 #include "IVModelInfo.h"
 #include "IVModelInfoClient.h"
 #include "IVModelRender.h"
+#include "IGameMovement.h"
 #include "IPanel.h"
 #include "ISurface.h"
 #include "IVEngineClient.h"
@@ -52,6 +53,7 @@
 #include "CUtlMemory.h"
 #include "CUtlVector.h"
 #include "CGlowObjectManager.h"
+#include "IPhysicsSurfaceProps.h"
 #include "IInputSystem.h"
 #include "IGameEvent.h"
 #include "IGameEventManager2.h"
@@ -60,6 +62,8 @@
 #include "IGameUI.h"
 #include "CBaseClientState.h"
 #include "CCSGameRules.h"
+#include "IMoveHelper.h"
+#include "IPrediction.h"
 #include "Engine/PatternManager/pattern.h"
 
 class Interfaces {
@@ -87,6 +91,12 @@ public:
     static IVModelInfoClient* ModelInfoClient();
     static CBaseClientState* ClientState();
     static C_CSGameRules* GameRules();
+    static IGameMovement* GameMovement();
+    static IPhysicsSurfaceProps* Physics();
+    static IPrediction* Prediction();
+    static IMoveHelper* MoveHelper();
+    static void SetMoveHelper(IMoveHelper* MoveHelper);
+    static bool HasMoveHelper();
 protected:
     static ISurface* m_pSurface;
     static IPanel* m_pPanel;
@@ -111,6 +121,10 @@ protected:
     static IVModelInfoClient* m_pModelInfoClient;
     static CBaseClientState* m_pBaseClientState;
     static C_CSGameRules* m_pGameRules;
+    static IGameMovement* m_pGameMovement;
+    static IPhysicsSurfaceProps* m_pPhysics;
+    static IPrediction* m_pPrediction;
+    static IMoveHelper* m_pMoveHelper;
 };
 
 #endif /* SDK_hpp */
