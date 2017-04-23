@@ -5,7 +5,7 @@
       location = "group:bootstrap/../osxinj/gosxinj.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:GOSX Lite/GOSX Lite.xcodeproj">
+      location = "group:/Users/akalisch/Games/gosxlite/GOSX Lite/GOSX Lite.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:bootstrap/bootstrap.xcodeproj">

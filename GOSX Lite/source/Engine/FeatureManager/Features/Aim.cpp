@@ -66,13 +66,23 @@ void CAim::CreateMove(CUserCmd *pCmd) {
         return;
     }
 
-    if (!INIGET_BOOL("Rage", "enabled") && !INIGET_BOOL("Rage", "auto_shoot")) {
+    if (!INIGET_BOOL("Rage", "enabled")) {
         if (
             (!Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
             (!Interfaces::InputSystem()->IsButtonDown(MOUSE_RIGHT) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
         ) {
             Reset();
             return;
+        }
+    } else {
+        if (!INIGET_BOOL("Rage", "auto_shoot")) {
+            if (
+                (!Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
+                (!Interfaces::InputSystem()->IsButtonDown(MOUSE_RIGHT) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
+            ) {
+                Reset();
+                return;
+            }
         }
     }
 
@@ -83,6 +93,7 @@ void CAim::CreateMove(CUserCmd *pCmd) {
             Reset();
             return;
         }
+        LockedTargetEntity = TargetEntity;
     } else {
         TargetEntity = LockedTargetEntity;
     }
@@ -243,7 +254,7 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
                 Interfaces::Engine()->SetViewAngles(AimAngle);
             }
 
-            if (INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "auto_shoot")) {
+            if (INIGET_BOOL("Rage", "enabled")) {
                 C_BaseCombatWeapon* activeWeapon = LocalPlayer->GetActiveWeapon();
                 AutoShoot(AimTarget, activeWeapon, pCmd);
             }
@@ -269,18 +280,14 @@ void CAim::RecoilControl(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* pla
     int currentWeaponID = currentWeapon->GetWeaponEntityID();
 
     QAngle CurrentPunch = LocalPlayer->AimPunch();
-    if (CurrentPunch.x == 0.f && CurrentPunch.y == 0.f) {
-        return;
-    }
-
     if (!INIGET_BOOL("Rage", "enabled")) {
         if (CWeaponManager::isRCSWeapon(currentWeaponID)) {
-            angle.x -= CurrentPunch.x * INIGET_FLOAT("Aimbot", "recoil_level");
-            angle.y -= CurrentPunch.y * INIGET_FLOAT("Aimbot", "recoil_level");
+            angle.x -= CurrentPunch.x * INIGET_FLOAT("AimHelper", "aim_rcs_level");
+            angle.y -= CurrentPunch.y * INIGET_FLOAT("AimHelper", "aim_rcs_level");
         }
     } else {
-        angle.x -= CurrentPunch.x * INIGET_FLOAT("Aimbot", "recoil_level");
-        angle.y -= CurrentPunch.y * INIGET_FLOAT("Aimbot", "recoil_level");
+        angle.x -= CurrentPunch.x * INIGET_FLOAT("AimHelper", "aim_rcs_level");
+        angle.y -= CurrentPunch.y * INIGET_FLOAT("AimHelper", "aim_rcs_level");
     }
 }
 
