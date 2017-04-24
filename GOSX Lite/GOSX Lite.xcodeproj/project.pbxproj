@@ -200,7 +200,7 @@
 		D8C2CDAA1E7996E400314AB1 /* IGameUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGameUI.h; sourceTree = "<group>"; };
 		D8CFCCF11E76F6F00018CD32 /* menu.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menu.ini; sourceTree = "<group>"; };
 		D8D846541E7300ED00EA1BB7 /* KeyValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValues.h; sourceTree = "<group>"; };
-		D8D95F0C1E8CC252006A1A58 /* Aim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aim.cpp; sourceTree = "<group>"; };
+		D8D95F0C1E8CC252006A1A58 /* Aim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aim.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D8D95F0D1E8CC252006A1A58 /* Aim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aim.h; sourceTree = "<group>"; };
 		D8E1C3841E6851F800F2F9E3 /* menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		D8E1C3851E6851F800F2F9E3 /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };

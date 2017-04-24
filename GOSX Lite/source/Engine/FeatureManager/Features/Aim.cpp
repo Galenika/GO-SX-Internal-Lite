@@ -227,9 +227,10 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
     RecoilControl(AimAngle, LocalPlayer, AimTarget, pCmd);
     if (!INIGET_BOOL("Rage", "enabled")) {
         Smooth(AimAngle);
+    } else {
+        AutoCrouch(LocalPlayer, AimTarget, pCmd);
+        AutoStop(LocalPlayer, AimTarget, pCmd);
     }
-    AutoCrouch(LocalPlayer, AimTarget, pCmd);
-    AutoStop(LocalPlayer, AimTarget, pCmd);
 
     oldForward = pCmd->forwardmove;
     oldSideMove = pCmd->sidemove;
@@ -264,7 +265,7 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
 
 void CAim::RecoilControl(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* player, CUserCmd* cmd, bool inAttack) {
     if (!INIGET_BOOL("Rage", "enabled")) {
-        if (!INIGET_BOOL("Aimbot", "recoil_control")) {
+        if (!INIGET_BOOL("AimHelper", "aim_rcs")) {
             return;
         }
     }
@@ -277,17 +278,19 @@ void CAim::RecoilControl(QAngle& angle, C_CSPlayer* LocalPlayer, C_CSPlayer* pla
     if (!currentWeapon) {
         return;
     }
-    int currentWeaponID = currentWeapon->GetWeaponEntityID();
 
+    int currentWeaponID = currentWeapon->GetWeaponEntityID();
     QAngle CurrentPunch = LocalPlayer->AimPunch();
-    if (!INIGET_BOOL("Rage", "enabled")) {
-        if (CWeaponManager::isRCSWeapon(currentWeaponID)) {
+    if (CurrentPunch.x != 0.f || CurrentPunch.y != 0.f) {
+        if (!INIGET_BOOL("Rage", "enabled")) {
+            if (CWeaponManager::isRCSWeapon(currentWeaponID)) {
+                angle.x -= CurrentPunch.x * INIGET_FLOAT("AimHelper", "aim_rcs_level");
+                angle.y -= CurrentPunch.y * INIGET_FLOAT("AimHelper", "aim_rcs_level");
+            }
+        } else {
             angle.x -= CurrentPunch.x * INIGET_FLOAT("AimHelper", "aim_rcs_level");
             angle.y -= CurrentPunch.y * INIGET_FLOAT("AimHelper", "aim_rcs_level");
         }
-    } else {
-        angle.x -= CurrentPunch.x * INIGET_FLOAT("AimHelper", "aim_rcs_level");
-        angle.y -= CurrentPunch.y * INIGET_FLOAT("AimHelper", "aim_rcs_level");
     }
 }
 
@@ -304,7 +307,7 @@ bool CAim::HasTarget() {
 }
 
 void CAim::AutoCrouch(C_CSPlayer* LocalPlayer, C_CSPlayer* EntityPlayer, CUserCmd* pCmd, bool inAttack) {
-    if (!INIGET_BOOL("Aimbot", "autocrouch")) {
+    if (!INIGET_BOOL("Rage", "auto_crouch")) {
         return;
     }
 
@@ -339,7 +342,7 @@ void CAim::AutoCrouch(C_CSPlayer* LocalPlayer, C_CSPlayer* EntityPlayer, CUserCm
 }
 
 void CAim::AutoStop(C_CSPlayer* LocalPlayer, C_CSPlayer* EntityPlayer, CUserCmd* cmd) {
-    if (!INIGET_BOOL("Aimbot", "auto_stop")) {
+    if (!INIGET_BOOL("Rage", "auto_stop")) {
         return;
     }
 
