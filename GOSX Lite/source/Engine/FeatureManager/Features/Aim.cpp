@@ -66,10 +66,17 @@ void CAim::CreateMove(CUserCmd *pCmd) {
         return;
     }
 
+    ButtonCode_t aimKey = (ButtonCode_t)INIGET_INT("AimHelper", "aim_key");
+    ButtonCode_t volverKey = MOUSE_RIGHT;
+    if (aimKey != KEY_FIRST) {
+        volverKey = aimKey;
+    } else {
+        aimKey = MOUSE_LEFT;
+    }
     if (!INIGET_BOOL("Rage", "enabled")) {
         if (
-            (!Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
-            (!Interfaces::InputSystem()->IsButtonDown(MOUSE_RIGHT) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
+            (!Interfaces::InputSystem()->IsButtonDown(aimKey) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
+            (!Interfaces::InputSystem()->IsButtonDown(volverKey) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
         ) {
             Reset();
             return;
@@ -77,8 +84,8 @@ void CAim::CreateMove(CUserCmd *pCmd) {
     } else {
         if (!INIGET_BOOL("Rage", "auto_shoot")) {
             if (
-                (!Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
-                (!Interfaces::InputSystem()->IsButtonDown(MOUSE_RIGHT) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
+                (!Interfaces::InputSystem()->IsButtonDown(aimKey) && currentWeaponID != EItemDefinitionIndex::weapon_revolver) ||
+                (!Interfaces::InputSystem()->IsButtonDown(volverKey) && currentWeaponID == EItemDefinitionIndex::weapon_revolver)
             ) {
                 Reset();
                 return;

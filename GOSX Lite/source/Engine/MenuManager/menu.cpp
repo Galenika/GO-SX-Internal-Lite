@@ -36,6 +36,10 @@ bool CHackMenu::IsMenuOpen() {
     return MenuOpen;
 }
 
+bool CHackMenu::IsWaitingForInput() {
+    return keyInputWaiting;
+}
+
 void CHackMenu::OpenMenu(bool init) {
     Interfaces::Engine()->ExecuteClientCmd("cl_mouseenable 0");
     Interfaces::Surface()->UnlockCursor();
@@ -79,6 +83,13 @@ void CHackMenu::HandleInput(int keynum) {
     }
 }
 
+void CHackMenu::HandleKey(int keynum) {
+    if (keynum != 0 && lastKey != keynum && keyInputWaiting) {
+        lastKey = keynum;
+        keyInputWaiting = false;
+    }
+}
+
 void CHackMenu::SetMouseState(bool released) {
     if (released) {
         mouseReleased = true;
@@ -95,6 +106,7 @@ void CHackMenu::DrawMenu() {
     ItemIndex = 1;
     InputIndex = 1;
     selectIndex = 1;
+    keyInputIndex = 1;
     baseWidth = MENUGET_INT("Sizes", "menu_base_w");
     baseHeight = MENUGET_INT("Sizes", "menu_base_h");
     int sw, sh;
@@ -139,6 +151,8 @@ void CHackMenu::DrawMenu() {
                             fieldType = FieldType_t::FIELDTYPE_INPUT;
                         } else if (key.pComment && !strcmp(key.pComment, "; select")) {
                             fieldType = FieldType_t::FIELDTYPE_SELECT;
+                        } else if (key.pComment && !strcmp(key.pComment, "; key")) {
+                            fieldType = FieldType_t::FIELDTYPE_KEY;
                         }
 
                         AddMenuItem(section.pItem, key.pItem, column, counter, fieldType);
@@ -312,6 +326,8 @@ void CHackMenu::AddMenuItem(const char *section, const char* key, int col, int r
             values = CEnginePrediction::GetModeValues();
         }
         DrawSelectField(section, key, ButtonBaseX, ButtonBaseY, INIGET_INT(section, key), list, values);
+    } else if (type == FieldType_t::FIELDTYPE_KEY) {
+        DrawKeyField(section, key, ButtonBaseX, ButtonBaseY, INIGET_INT(section, key));
     }
 
     menuIndex[key] = ItemIndex;
@@ -325,7 +341,7 @@ void CHackMenu::DrawHeader() {
     if (!headerFont) {
         headerFont = dMgr->GetFont(MENUGET_STRING("Main", "menu_font"), 18, FontFlags::FONTFLAG_ANTIALIAS);
     }
-    dMgr->DrawShadowString(headerFont, baseX + 10, baseY + 8, MENUGET_COLOR("Colors", "header_text"), false, "GO:SX Settings");
+    dMgr->DrawShadowString(headerFont, baseX + 10, baseY + 8, MENUGET_COLOR("Colors", "header_text"), false, "GO:SX Lite Settings");
 }
 
 void CHackMenu::DrawSaveButton() {
@@ -704,4 +720,56 @@ void CHackMenu::DrawActiveSelect() {
         
         marginTop += OptionHeight;
     }
+}
+
+void CHackMenu::DrawKeyField(const char *section, const char *key, int x, int y, int keyValue) {
+    int InputWidth = MENUGET_INT("Sizes", "input_w");
+    int InputHeight = MENUGET_INT("Sizes", "input_h");
+
+    int InputBaseX = (x + MENUGET_INT("Sizes", "button_w")) - (InputWidth + 5);
+    int InputBaseY = y + 5;
+
+    dMgr->DrawRect(InputBaseX, InputBaseY, InputWidth, InputHeight, MENUGET_COLOR("Colors", "input_background"));
+
+    if (
+        activeKeyInput != -1 &&
+        activeKeyInput == keyInputIndex &&
+        lastKey != -5
+    ) {
+        if ((ButtonCode_t)lastKey == ButtonCode_t::KEY_ESCAPE) {
+            keyValue = 0;
+        } else {
+            keyValue = lastKey;
+        }
+        CSettingsManager::Instance("settings.ini")->SetIntValue(section, key, keyValue);
+        activeKeyInput = -1;
+        lastKey = -5;
+    }
+
+    if (IsMouseOverThis(InputBaseX, InputBaseY, InputWidth, InputHeight)) {
+        if (mouseReleased && activeKeyInput != keyInputIndex) {
+            activeKeyInput = keyInputIndex;
+            keyInputWaiting = true;
+            mouseReleased = false;
+        }
+    }
+
+    if (activeKeyInput == keyInputIndex) {
+        dMgr->DrawOutlineRect(InputBaseX, InputBaseY, InputWidth, InputHeight, MENUGET_COLOR("Colors", "colored_highlight"));
+    } else {
+        dMgr->DrawOutlineRect(InputBaseX, InputBaseY, InputWidth, InputHeight, MENUGET_COLOR("Colors", "colored_normal"));
+    }
+
+    int TextBaseX = InputBaseX + 5;
+    int TextBaseY = InputBaseY + 3;
+
+    const char* inputValue;
+    if (keyInputWaiting) {
+        inputValue = "Press any key ...";
+    } else {
+        inputValue = KeyNameForValue.at(keyValue);
+    }
+    dMgr->DrawString(1, TextBaseX, TextBaseY, MENUGET_COLOR("Colors", "input_text"), false, inputValue);
+
+    keyInputIndex++;
 }

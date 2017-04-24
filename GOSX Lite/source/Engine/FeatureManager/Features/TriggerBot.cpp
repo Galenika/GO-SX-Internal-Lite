@@ -11,6 +11,7 @@
 CTriggerBot::CTriggerBot() {}
 
 void CTriggerBot::apply(CUserCmd *pCmd) {
+    ButtonCode_t triggerKey = (ButtonCode_t)INIGET_INT("Improvements", "trigger_key");
     if (Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {

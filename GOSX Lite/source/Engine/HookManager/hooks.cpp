@@ -63,7 +63,9 @@ namespace HookManager
                         return g_pClient->GetOriginalMethod<KeyEventFn>(20)(thisptr, eventcode, keynum, currentbinding);
                     }
 
-                    if(keynum == ButtonCode_t::MOUSE_LEFT) {
+                    if (CHackMenu::Instance()->IsWaitingForInput()) {
+                        CHackMenu::Instance()->HandleKey(keynum);
+                    } else if(keynum == ButtonCode_t::MOUSE_LEFT) {
                         CHackMenu::Instance()->SetMouseState(true);
                     } else {
                         CHackMenu::Instance()->HandleInput(keynum);
