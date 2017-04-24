@@ -418,15 +418,7 @@ void CAim::Smooth(QAngle& angle)
     QAngle viewAngles = QAngle(0.f, 0.f, 0.f);
     Interfaces::Engine()->GetViewAngles(viewAngles);
 
-    QAngle delta = angle - viewAngles;
-    CMath::NormalizeAngles(delta);
-
-    float smooth = powf(INIGET_FLOAT("AimHelper", "aim_smoothing"), 0.4f);
-    smooth = std::min(0.99f, smooth);
-
-    QAngle toChange = delta - delta * smooth;
-
-    angle = viewAngles + toChange;
+    CMath::SmoothAngle(viewAngles, angle, INIGET_FLOAT("AimHelper", "aim_smoothing"));
 }
 
 int CAim::MakeHitscan(C_CSPlayer* pLocal, C_CSPlayer* pEntity) {

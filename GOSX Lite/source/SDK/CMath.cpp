@@ -149,7 +149,7 @@ void CMath::VectorNormalize( Vector& v ) {
 void CMath::SmoothAngle(const QAngle& ViewAngle, QAngle& DestAngles, float smooth) {
     QAngle vecDelta = ViewAngle - DestAngles;
     ClampAngle(vecDelta);
-    DestAngles = ViewAngle - vecDelta / 100.0f * smooth; // 50.0f is ur smooth value
+    DestAngles = ViewAngle - vecDelta / (100.0f * smooth);
 }
 
 void CMath::MakeVector(Vector angle, Vector& vector) {
