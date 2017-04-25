@@ -131,6 +131,10 @@ void CAntiAim::CreateMove(CUserCmd* pCmd) {
         return;
     }
 
+    if (pLocal->IsAlive() && pWeapon->GetCSWpnData()->GetWeaponType() == CSWeaponType::WEAPONTYPE_GRENADE) {
+        return;
+    }
+
     AAYaw(angle);
     CMath::NormalizeAngles(angle);
 
