@@ -144,22 +144,6 @@ void CAntiAim::CreateMove(CUserCmd* pCmd) {
     CMath::ClampAngle(angle);
 
     pCmd->viewangles = angle;
-
-    if (INIGET_BOOL("Rage", "anti_resolver")) {
-        static bool antiResolverFlip = false;
-        if (pCmd->viewangles.y == pLocal->GetLowerBodyYawTarget()) {
-            if (antiResolverFlip) {
-                pCmd->viewangles.y += 60.f;
-            } else {
-                pCmd->viewangles.y -= 60.f;
-            }
-            
-            antiResolverFlip = !antiResolverFlip;
-
-            CMath::NormalizeAngles(pCmd->viewangles);
-            CMath::ClampAngle(pCmd->viewangles);
-        }
-    }
     
     CMath::CorrectMovement(oldAngle, pCmd, oldForward, oldSideMove);
 }
