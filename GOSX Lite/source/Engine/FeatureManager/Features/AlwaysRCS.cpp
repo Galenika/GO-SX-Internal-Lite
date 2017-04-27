@@ -17,47 +17,41 @@ CAlwaysRCS::CAlwaysRCS(CAim* aimbot) {
 void CAlwaysRCS::apply(CUserCmd *pCmd) {
     if(pCmd->buttons & IN_ATTACK) {
         if(INIGET_BOOL("AimHelper", "aim_rcs") && aimInstance->HasTarget()) {
+            lastRCSPunch = {0.f, 0.f, 0.f};
             return;
         }
 
-        QAngle OldViewAngle = pCmd->viewangles;
-        QAngle RCSViewAngle;
+        QAngle ViewAngle = pCmd->viewangles;
 
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
+            lastRCSPunch = {0.f, 0.f, 0.f};
             return;
         }
 
         C_BaseCombatWeapon* activeWeapon = LocalPlayer->GetActiveWeapon();
         if (!activeWeapon || !CWeaponManager::isRCSWeapon(activeWeapon->GetWeaponEntityID())) {
+            lastRCSPunch = {0.f, 0.f, 0.f};
             return;
         }
 
         QAngle CurrentAimPunch = LocalPlayer->AimPunch();
         float RCSLevel = INIGET_FLOAT("AimHelper", "aim_rcs_level");
         if (CurrentAimPunch.x != 0.0f || CurrentAimPunch.y != 0.0f) {
-            QAngle AimPunch = {CurrentAimPunch.x - lastRCSPunch.x, CurrentAimPunch.y - lastRCSPunch.y, 0.0f};
+            QAngle NewPunch = {CurrentAimPunch.x - lastRCSPunch.x, CurrentAimPunch.y - lastRCSPunch.y, 0.f};
 
-            RCSViewAngle.x = OldViewAngle.x - (AimPunch.x * RCSLevel);
-            RCSViewAngle.y = OldViewAngle.y - (AimPunch.y * RCSLevel);
-            RCSViewAngle.z = 0.0f;
+            ViewAngle.x -= NewPunch.x * RCSLevel;
+            ViewAngle.y -= NewPunch.y * RCSLevel;
 
-            if (RCSViewAngle != OldViewAngle) {
-                CMath::SmoothAngle(OldViewAngle, RCSViewAngle, (INIGET_FLOAT("AimHelper", "aim_smoothing") * 100));
-                CMath::NormalizeAngles(RCSViewAngle);
-                CMath::ClampAngle(RCSViewAngle);
+            CMath::NormalizeAngles(ViewAngle);
+            CMath::ClampAngle(ViewAngle);
 
-                if (INIGET_BOOL("AimHelper", "aim_silent")) {
-                    pCmd->viewangles = RCSViewAngle;
-                } else {
-                    Interfaces::Engine()->SetViewAngles(RCSViewAngle);
-                }
-            }
+            Interfaces::Engine()->SetViewAngles(ViewAngle);
+            lastRCSPunch = CurrentAimPunch;
+        } else {
+            lastRCSPunch = {0.f, 0.f, 0.f};
         }
-        lastRCSPunch = CurrentAimPunch;
     } else {
-        if(lastRCSPunch.x != 0.0f && lastRCSPunch.y != 0.0f) {
-            lastRCSPunch = Vector(0.0f, 0.0f, 0.0f);
-        }
+        lastRCSPunch = {0.f, 0.f, 0.f};
     }
 }
