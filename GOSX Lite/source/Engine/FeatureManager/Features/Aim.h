@@ -34,6 +34,7 @@ private:
     C_CSPlayer* LockedTargetEntity = nullptr;
     int LockedEntityBone = -5;
     bool HasValidTargetAndIsAiming = false;
+    std::vector<int> hitboxes;
 };
 
 #endif /* Aim_hpp */

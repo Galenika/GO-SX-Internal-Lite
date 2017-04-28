@@ -135,6 +135,15 @@ void CAntiAim::CreateMove(CUserCmd* pCmd) {
         return;
     }
 
+    if (
+        INIGET_BOOL("Improvements", "triggerbot") &&
+        Interfaces::InputSystem()->IsButtonDown(
+            (ButtonCode_t)INIGET_INT("Improvements", "trigger_key")
+        )
+    ) {
+        return;
+    }
+
     AAYaw(angle);
     CMath::NormalizeAngles(angle);
 

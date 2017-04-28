@@ -10,7 +10,22 @@
 #include "AutoWalls.h"
 #include "EnginePrediction.h"
 
-CAim::CAim() {}
+CAim::CAim() {
+    hitboxes.push_back((int)PlayerBones::Head);
+    hitboxes.push_back((int)PlayerBones::Neck);
+    hitboxes.push_back((int)PlayerBones::Neck_Lower);
+    hitboxes.push_back((int)PlayerBones::Pelvis);
+    hitboxes.push_back((int)PlayerBones::Stomach);
+    hitboxes.push_back((int)PlayerBones::Lower_Chest);
+    hitboxes.push_back((int)PlayerBones::Chest);
+    hitboxes.push_back((int)PlayerBones::Upper_Chest);
+    hitboxes.push_back((int)PlayerBones::Right_Thigh);
+    hitboxes.push_back((int)PlayerBones::Left_Thigh);
+    hitboxes.push_back((int)PlayerBones::Right_Shin);
+    hitboxes.push_back((int)PlayerBones::Left_Shin);
+    hitboxes.push_back((int)PlayerBones::Right_Foot);
+    hitboxes.push_back((int)PlayerBones::Left_Foot);
+}
 
 std::map<int, const char*> CAim::GetBoneList() {
     std::map<int, const char*> select;
@@ -429,22 +444,6 @@ void CAim::Smooth(QAngle& angle)
 }
 
 int CAim::MakeHitscan(C_CSPlayer* pLocal, C_CSPlayer* pEntity) {
-    std::vector<int> hitboxes;
-    hitboxes.push_back((int)PlayerBones::Head);
-    hitboxes.push_back((int)PlayerBones::Neck);
-    hitboxes.push_back((int)PlayerBones::Neck_Lower);
-    hitboxes.push_back((int)PlayerBones::Pelvis);
-    hitboxes.push_back((int)PlayerBones::Stomach);
-    hitboxes.push_back((int)PlayerBones::Lower_Chest);
-    hitboxes.push_back((int)PlayerBones::Chest);
-    hitboxes.push_back((int)PlayerBones::Upper_Chest);
-    hitboxes.push_back((int)PlayerBones::Right_Thigh);
-    hitboxes.push_back((int)PlayerBones::Left_Thigh);
-    hitboxes.push_back((int)PlayerBones::Right_Shin);
-    hitboxes.push_back((int)PlayerBones::Left_Shin);
-    hitboxes.push_back((int)PlayerBones::Right_Foot);
-    hitboxes.push_back((int)PlayerBones::Left_Foot);
-
     for (auto hit : hitboxes) {
         float flDmg = CAutoWalls::Instance()->GetDamage(pLocal, pEntity->GetPredictedPosition(hit));
         if (flDmg > 0.f) {
