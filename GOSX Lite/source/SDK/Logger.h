@@ -14,9 +14,9 @@
 class FileLogger {
 public:
     FileLogger();
-    static FileLogger* Instance() {
+    static std::shared_ptr<FileLogger> Instance() {
         if(!instance) {
-            instance = new FileLogger();
+            instance = std::make_unique<FileLogger>();
         }
 
         return instance;
@@ -41,7 +41,7 @@ public:
         logFile.close();
     }
 private:
-    static FileLogger* instance;
+    static std::shared_ptr<FileLogger> instance;
 };
 
 #endif /* Logger_hpp */

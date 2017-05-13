@@ -10,85 +10,122 @@
 
 CTriggerBot::CTriggerBot() {}
 
-void CTriggerBot::apply(CUserCmd *pCmd) {
+void CTriggerBot::CreateMove(CUserCmd *pCmd) {
     ButtonCode_t triggerKey = (ButtonCode_t)INIGET_INT("Improvements", "trigger_key");
-    if (Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
+    if(Interfaces::InputSystem()->IsButtonDown(triggerKey)) {
         C_CSPlayer* LocalPlayer = C_CSPlayer::GetLocalPlayer();
         if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
+            Reset();
             return;
         }
 
-        C_BaseCombatWeapon* active_weapon = LocalPlayer->GetActiveWeapon();
-        if (!active_weapon || active_weapon->GetAmmo() == 0 || !CWeaponManager::IsValidWeapon(active_weapon->GetWeaponEntityID())) {
+        C_BaseCombatWeapon* activeWeapon = LocalPlayer->GetActiveWeapon();
+        if (!activeWeapon || activeWeapon->GetAmmo() == 0 || !CWeaponManager::IsValidWeapon(activeWeapon->GetWeaponEntityID())) {
+            Reset();
             return;
         }
 
-        Vector traceStart, traceEnd;
+        if (!triggerTarget) {
+            for (int eCount = 0; eCount < Interfaces::Engine()->GetMaxClients(); eCount++) {
+                C_CSPlayer* PlayerEntity = C_CSPlayer::GetEntity(eCount);
+                if (!PlayerEntity || !PlayerEntity->IsValidLivePlayer() || PlayerEntity->GetImmune()) {
+                    continue;
+                }
 
-        QAngle viewAngles;
-        Interfaces::Engine()->GetViewAngles(viewAngles);
-        QAngle viewAngles_rcs = viewAngles + (LocalPlayer->AimPunch() * 2.0f);
+                if (PlayerEntity->GetTeamNum() == LocalPlayer->GetTeamNum()) {
+                    continue;
+                }
 
-        CMath::AngleVectors(viewAngles_rcs, traceEnd);
+                if (!PlayerEntity->IsVisible(LocalPlayer)) {
+                    continue;
+                }
 
-        traceStart = LocalPlayer->GetEyePos();
-        traceEnd = traceStart + (traceEnd * 8192.0f);
+                if (!CanHitTarget(LocalPlayer, PlayerEntity, activeWeapon, pCmd)) {
+                    continue;
+                }
 
-        Ray_t ray;
-        trace_t trace;
-        CTraceFilter filter;
-        filter.pSkip = LocalPlayer;
-
-        ray.Init(traceStart, traceEnd);
-        Interfaces::EngineTrace()->TraceRay(ray, MASK_SHOT, &filter, &trace);
-
-        if (trace.allsolid || trace.startsolid) {
-            return;
-        }
-
-        C_CSPlayer* player = (C_CSPlayer*)trace.m_pEnt;
-        if (!player || !player->IsValidLivePlayer() || player->GetImmune()) {
-            return;
-        }
-
-        if (player->GetClientClass()->m_ClassID != EClassIds::CCSPlayer) {
-            return;
-        }
-
-        if (LocalPlayer->GetTeamNum() == player->GetTeamNum()) {
-            return;
-        }
-
-        if (INIGET_BOOL("Improvements", "trigger_delay")) {
-            float currTime = Interfaces::GlobalVars()->curtime;
-            if (triggerTime == 0.f) {
-                triggerTime = currTime;
+                triggerTarget = PlayerEntity;
+                break;
             }
 
-            float triggerDelay = (float)(INIGET_INT("Improvements", "trigger_delay_value") / 1000);
-            if ((currTime - triggerTime) < triggerDelay) {
+            return;
+        }
+
+        if (triggerTarget != nullptr) {
+            bool delayExpired = false;
+            if (INIGET_BOOL("Improvements", "trigger_delay")) {
+                long currTime = Functions::GetTimeStamp();
+                if (triggerTime == 0) {
+                    triggerTime = currTime;
+                }
+
+                long triggerDelay = (long)Functions::SafeFloatToInt(INIGET_FLOAT("Improvements", "trigger_delay_value"));
+                long currentDelay = currTime - triggerTime;
+                if (currentDelay > triggerDelay) {
+                    delayExpired = true;
+                    triggerTime = 0;
+                }
+            } else {
+                delayExpired = true;
+            }
+
+            if (delayExpired) {
+                if (activeWeapon->GetWeaponEntityID() == EItemDefinitionIndex::weapon_revolver) {
+                    pCmd->buttons |= IN_ATTACK2;
+                } else {
+                    pCmd->buttons |= IN_ATTACK;
+                }
+                Reset();
                 return;
-            }
-
-            triggerTime = currTime;
-        }
-
-        if (active_weapon->NextPrimaryAttack() > Interfaces::GlobalVars()->curtime) {
-            if (active_weapon->GetWeaponEntityID() == weapon_revolver) {
-                pCmd->buttons &= ~IN_ATTACK2;
-            } else {
-                pCmd->buttons &= ~IN_ATTACK;
-            }
-        } else {
-            if (active_weapon->GetWeaponEntityID() == weapon_revolver) {
-                pCmd->buttons |= IN_ATTACK2;
-            } else {
-                pCmd->buttons |= IN_ATTACK;
             }
         }
     } else {
-        if (triggerTime > 0.f) {
-            triggerTime = 0.f;
-        }
+        Reset();
+        return;
     }
+}
+
+bool CTriggerBot::CanHitTarget(C_CSPlayer *LocalPlayer, C_CSPlayer *TargetEntity, C_BaseCombatWeapon *weapon, CUserCmd *pCmd) {
+    if (!LocalPlayer || !LocalPlayer->IsValidLivePlayer()) {
+        return false;
+    }
+
+    if (!TargetEntity || !TargetEntity->IsValidLivePlayer() || TargetEntity->GetImmune()) {
+        return false;
+    }
+
+    if (!weapon || weapon->GetAmmo() == 0 || !CWeaponManager::IsValidWeapon(weapon->GetWeaponEntityID())) {
+        return false;
+    }
+
+    Vector traceStart, traceEnd;
+
+    QAngle viewAngles;
+    Interfaces::Engine()->GetViewAngles(viewAngles);
+
+    QAngle viewAnglesRCS = viewAngles + (LocalPlayer->AimPunch() * 2.f);
+
+    CMath::AngleVectors(viewAnglesRCS, traceEnd);
+
+    traceStart = LocalPlayer->GetEyePos();
+    traceEnd = traceStart + (traceEnd * 8192.f);
+
+    Ray_t ray;
+    trace_t trace;
+    CTraceFilter filter;
+    filter.pSkip = LocalPlayer;
+
+    ray.Init(traceStart, traceEnd);
+    Interfaces::EngineTrace()->TraceRay(ray, MASK_SHOT, &filter, &trace);
+
+    if (trace.m_pEnt && trace.m_pEnt == TargetEntity) {
+        return true;
+    }
+
+    return false;
+}
+
+void CTriggerBot::Reset() {
+    triggerTime = 0;
+    triggerTarget = nullptr;
 }

@@ -14,7 +14,7 @@
 #include "Engine/FeatureManager/Features/EnginePrediction.h"
 #include "KeyStroke.h"
 
-CHackMenu* CHackMenu::instance = nullptr;
+std::shared_ptr<CHackMenu> CHackMenu::instance = nullptr;
 
 CHackMenu::CHackMenu() {
     dMgr = CDrawings::Instance();
@@ -414,7 +414,6 @@ void CHackMenu::DrawSlider(const char *section, const char* key, int x, int y, f
 
     if (IsMouseOverThis(PointerBaseX, PointerBaseY, 12, 16)) {
         if (Interfaces::InputSystem()->IsButtonDown(MOUSE_LEFT)) {
-            int PixelFromBaseX = SliderWidth / 2;
             int mouseX, mouseY;
             Interfaces::Surface()->SurfaceGetCursorPos(mouseX, mouseY);
             if (mouseX > SliderBaseX + SliderWidth) {
@@ -423,7 +422,7 @@ void CHackMenu::DrawSlider(const char *section, const char* key, int x, int y, f
                 mouseX = SliderBaseX;
             }
             if (mouseX != lastMousePosX) {
-                PixelFromBaseX = mouseX - SliderBaseX;
+                int PixelFromBaseX = mouseX - SliderBaseX;
                 value = (float)(rangeValue / 100 * PixelFromBaseX);
                 sliderPercent = (int)(value / rangeValue * 100);
                 PointerBaseX = (SliderBaseX - 6) + sliderPercent;

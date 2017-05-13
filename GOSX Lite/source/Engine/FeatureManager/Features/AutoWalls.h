@@ -26,9 +26,9 @@ struct FireBulletData {
 
 class CAutoWalls {
 public:
-    static CAutoWalls* Instance() {
+    static std::shared_ptr<CAutoWalls> Instance() {
         if (!instance) {
-            instance = new CAutoWalls();
+            instance = std::make_unique<CAutoWalls>();
         }
 
         return instance;
@@ -43,7 +43,7 @@ public:
     float GetDamage(C_CSPlayer* pLocal, C_CSPlayer* pEntity, int HitboxIndex);
     float GetDamage(C_CSPlayer* pLocal, Vector HitboxPosition);
 private:
-    static CAutoWalls* instance;
+    static std::shared_ptr<CAutoWalls> instance;
 };
 
 #endif /* AutoWalls_h */

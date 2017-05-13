@@ -18,9 +18,9 @@ extern float m_flOldFrametime;
 class CEnginePrediction {
 public:
     CEnginePrediction();
-    static CEnginePrediction* Instance() {
+    static std::shared_ptr<CEnginePrediction> Instance() {
         if (!instance) {
-            instance = new CEnginePrediction();
+            instance = std::make_unique<CEnginePrediction>();
         }
 
         return instance;
@@ -31,7 +31,7 @@ public:
     void Start(CUserCmd* cmd);
     void End();
 private:
-    static CEnginePrediction* instance;
+    static std::shared_ptr<CEnginePrediction> instance;
     float m_flOldCurtime = 0.f;
     float m_flOldFrametime = 0.f;
     int oldPFlags;

@@ -30,9 +30,9 @@ enum EAntiAimYaw {
 class CAntiAim {
 public:
     CAntiAim();
-    static CAntiAim* Instance() {
+    static std::shared_ptr<CAntiAim> Instance() {
         if (!instance) {
-            instance = new CAntiAim();
+            instance = std::make_unique<CAntiAim>();
         }
 
         return instance;
@@ -46,7 +46,7 @@ public:
     void AAYaw(QAngle& angle);
     void CreateMove(CUserCmd* pCmd);
 private:
-    static CAntiAim* instance;
+    static std::shared_ptr<CAntiAim> instance;
     Vector atTargets;
 };
 

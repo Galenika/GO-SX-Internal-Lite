@@ -8,7 +8,7 @@
 
 #include "Logger.h"
 
-FileLogger* FileLogger::instance = nullptr;
+std::shared_ptr<FileLogger> FileLogger::instance = nullptr;
 
 FileLogger::FileLogger() {}
 

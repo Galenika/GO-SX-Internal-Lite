@@ -2,18 +2,18 @@
 #include "SDK/Utils.h"
 
 namespace FeatureManager {
-    CBunnyHop* g_cBunnyHop = nullptr;
-    CTriggerBot* g_cTriggerBot = nullptr;
-    CAim* g_cAim = nullptr;
-    CAlwaysRCS* g_cAlwaysRCS = nullptr;
-    CAntiAim* g_cAntiAim = nullptr;
+    std::shared_ptr<CBunnyHop> g_cBunnyHop = nullptr;
+    std::shared_ptr<CTriggerBot> g_cTriggerBot = nullptr;
+    std::shared_ptr<CAim> g_cAim = nullptr;
+    std::shared_ptr<CAlwaysRCS> g_cAlwaysRCS = nullptr;
+    std::shared_ptr<CAntiAim> g_cAntiAim = nullptr;
 
     bool CreateMove(void* thisptr, float sample_input_frametime, CUserCmd* pCmd) {
         bool bRet = true;
 
         if (INIGET_BOOL("Improvements", "bunnyhop")) {
             if (!g_cBunnyHop) {
-                g_cBunnyHop = new CBunnyHop();
+                g_cBunnyHop = std::make_unique<CBunnyHop>();
             }
             g_cBunnyHop->run(pCmd);
         }
@@ -27,7 +27,7 @@ namespace FeatureManager {
 
         if (INIGET_BOOL("AimHelper", "enabled")) {
             if (!g_cAim) {
-                g_cAim = new CAim();
+                g_cAim = std::make_unique<CAim>();
             }
             bool EnginePredictActive = INIGET_BOOL("Rage", "enabled") &&
                                        INIGET_BOOL("Rage", "engine_predict") &&
@@ -55,18 +55,18 @@ namespace FeatureManager {
         if (INIGET_BOOL("Improvements", "always_rcs")) {
             if(!g_cAlwaysRCS) {
                 if (!g_cAim) {
-                    g_cAim = new CAim();
+                    g_cAim = std::make_unique<CAim>();
                 }
-                g_cAlwaysRCS = new CAlwaysRCS(g_cAim);
+                g_cAlwaysRCS = std::make_unique<CAlwaysRCS>(g_cAim);
             }
             g_cAlwaysRCS->apply(pCmd);
         }
 
         if (INIGET_BOOL("Improvements", "triggerbot")) {
             if (!g_cTriggerBot) {
-                g_cTriggerBot = new CTriggerBot();
+                g_cTriggerBot = std::make_unique<CTriggerBot>();
             }
-            g_cTriggerBot->apply(pCmd);
+            g_cTriggerBot->CreateMove(pCmd);
         }
 
         return bRet;

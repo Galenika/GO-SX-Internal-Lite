@@ -17,7 +17,7 @@ using namespace std;
     //------------------------------------------------------------
     // Netvar Manager
     //------------------------------------------------------------
-NetvarManager* NetvarManager::instance = nullptr;
+std::shared_ptr<NetvarManager> NetvarManager::instance = nullptr;
 
 NetvarManager::NetvarManager()
 {

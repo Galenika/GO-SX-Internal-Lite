@@ -56,15 +56,16 @@ public:
 class NetvarManager
 {
 private:
-    static NetvarManager* instance;
+    static std::shared_ptr<NetvarManager> instance;
+public:
     NetvarManager();
     ~NetvarManager();
     NetvarManager(const NetvarManager&) = delete;
-
-public:
-    static NetvarManager* Instance()
+    static std::shared_ptr<NetvarManager> Instance()
     {
-    if (!instance) instance = new NetvarManager;
+    if (!instance) {
+        instance = std::make_unique<NetvarManager>();
+    }
     return instance;
     }
     void CreateDatabase();

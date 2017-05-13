@@ -2,12 +2,12 @@
 
 namespace HookManager
 {
-    VMT* g_pPanel       = nullptr;
-    VMT* g_pClient      = nullptr;
-    VMT* g_pModelRender = nullptr;
-    VMT* g_pClientMode  = nullptr;
-    VMT* g_pGameEvent   = nullptr;
-    VMT* g_pPrediction  = nullptr;
+    std::shared_ptr<VMT> g_pPanel       = nullptr;
+    std::shared_ptr<VMT> g_pClient      = nullptr;
+    std::shared_ptr<VMT> g_pModelRender = nullptr;
+    std::shared_ptr<VMT> g_pClientMode  = nullptr;
+    std::shared_ptr<VMT> g_pGameEvent   = nullptr;
+    std::shared_ptr<VMT> g_pPrediction  = nullptr;
     RecvVarProxyFn g_pSequence = nullptr;
 
     CDrawings* drawManager = nullptr;
@@ -18,17 +18,17 @@ namespace HookManager
         Interfaces::Cvar()->ConsolePrintf("GO:SX Lite injected!\n");
 
         while(!Interfaces::Client()) { usleep(500000); }
-        g_pClient       = new VMT(Interfaces::Client());
+        g_pClient       = std::make_unique<VMT>(Interfaces::Client());
         while(!Interfaces::Panel()) { usleep(500000); }
-        g_pPanel        = new VMT(Interfaces::Panel());
+        g_pPanel        = std::make_unique<VMT>(Interfaces::Panel());
         while(!Interfaces::ModelRender()) { usleep(500000); }
-        g_pModelRender  = new VMT(Interfaces::ModelRender());
+        g_pModelRender  = std::make_unique<VMT>(Interfaces::ModelRender());
         while(!Interfaces::ClientMode()) { usleep(500000); }
-        g_pClientMode   = new VMT(Interfaces::ClientMode());
+        g_pClientMode   = std::make_unique<VMT>(Interfaces::ClientMode());
         while(!Interfaces::GameEventManager()) { usleep(500000); }
-        g_pGameEvent    = new VMT(Interfaces::GameEventManager());
+        g_pGameEvent    = std::make_unique<VMT>(Interfaces::GameEventManager());
         while(!Interfaces::Prediction()) { usleep(500000); }
-        g_pPrediction   = new VMT(Interfaces::Prediction());
+        g_pPrediction   = std::make_unique<VMT>(Interfaces::Prediction());
 
         NetvarManager::Instance()->CreateDatabase();
 

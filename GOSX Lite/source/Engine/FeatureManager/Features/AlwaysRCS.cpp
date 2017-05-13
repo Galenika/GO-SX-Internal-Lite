@@ -8,7 +8,7 @@
 
 #include "AlwaysRCS.h"
 
-CAlwaysRCS::CAlwaysRCS(CAim* aimbot) {
+CAlwaysRCS::CAlwaysRCS(std::shared_ptr<CAim> aimbot) {
     if (!aimInstance) {
         aimInstance = aimbot;
     }

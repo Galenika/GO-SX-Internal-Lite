@@ -57,10 +57,10 @@ public:
 
     void SaveSettings(bool fromGameEvent = false, bool buttonClicked = false);
 
-    static CSettingsManager* Instance(std::string file)
+    static std::shared_ptr<CSettingsManager> Instance(std::string file)
     {
         if(!instances[file]) {
-            instances[file] = new CSettingsManager(file);
+            instances[file] = std::make_unique<CSettingsManager>(file);
         }
         return instances[file];
     }
@@ -80,9 +80,9 @@ public:
     bool HasWeaponConfiguration(const char* section);
     EconomyItem_t GetWeaponConfiguration(const char* section);
 protected:
-    static CSettingsManager*    instance;
-    static CSettingsManager*    menu;
-    static std::map<std::string, CSettingsManager*> instances;
+    static std::shared_ptr<CSettingsManager>    instance;
+    static std::shared_ptr<CSettingsManager>    menu;
+    static std::map<std::string, std::shared_ptr<CSettingsManager>> instances;
     CSimpleIniA                 ini;
     char*                       iniFile;
 };

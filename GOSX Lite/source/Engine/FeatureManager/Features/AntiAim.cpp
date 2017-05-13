@@ -8,7 +8,7 @@
 
 #include "AntiAim.h"
 
-CAntiAim* CAntiAim::instance = nullptr;
+std::shared_ptr<CAntiAim> CAntiAim::instance = nullptr;
 
 CAntiAim::CAntiAim() {}
 

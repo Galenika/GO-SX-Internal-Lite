@@ -15,11 +15,11 @@
 
 class CEsp {
 public:
-    CEsp(CDrawings* drawMngr);
+    CEsp(std::shared_ptr<CDrawings> drawMngr);
     void DrawESP();
     void DrawSmokeESP();
 private:
-    CDrawings* DrawManager;
+    std::shared_ptr<CDrawings> DrawManager;
 };
 
 #endif /* Esp_h */

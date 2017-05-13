@@ -160,7 +160,7 @@ C_CSPlayer* CAim::FindTarget(C_CSPlayer* LocalPlayer) {
         }
 
         Vector PossibleTargetHitbox;
-        if ((INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "engine_predict")) || INIGET_BOOL("Aimbot", "engine_predict")) {
+        if ((INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "engine_predict")) || INIGET_BOOL("AimHelper", "engine_predict")) {
             PossibleTargetHitbox = PossibleTarget->GetPredictedPosition(aimHitbox);
         } else {
             PossibleTargetHitbox = PossibleTarget->GetHitboxPosition(aimHitbox);
@@ -216,7 +216,7 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
     }
 
     Vector TargetHitbox;
-    if ((INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "engine_predict")) || INIGET_BOOL("Aimbot", "engine_predict")) {
+    if ((INIGET_BOOL("Rage", "enabled") && INIGET_BOOL("Rage", "engine_predict")) || INIGET_BOOL("AimHelper", "engine_predict")) {
         TargetHitbox = AimTarget->GetPredictedPosition(LockedBone);
     } else {
         TargetHitbox = AimTarget->GetHitboxPosition(LockedBone);
@@ -254,8 +254,12 @@ void CAim::StartAim(C_CSPlayer* LocalPlayer, C_CSPlayer* AimTarget, CUserCmd* pC
         AutoStop(LocalPlayer, AimTarget, pCmd);
     }
 
-    oldForward = pCmd->forwardmove;
-    oldSideMove = pCmd->sidemove;
+    if (oldForward != pCmd->forwardmove) {
+        oldForward = pCmd->forwardmove;
+    }
+    if (oldSideMove != pCmd->sidemove) {
+        oldSideMove = pCmd->sidemove;
+    }
 
     if (!AimTarget->IsValidLivePlayer()) {
         Reset();

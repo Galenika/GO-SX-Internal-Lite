@@ -8,7 +8,7 @@
 
 #include "EnginePrediction.h"
 
-CEnginePrediction* CEnginePrediction::instance = nullptr;
+std::shared_ptr<CEnginePrediction> CEnginePrediction::instance = nullptr;
 
 CEnginePrediction::CEnginePrediction() {}
 

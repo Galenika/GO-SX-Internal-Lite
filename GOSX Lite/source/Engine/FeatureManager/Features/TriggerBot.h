@@ -16,9 +16,12 @@
 class CTriggerBot {
 public:
     CTriggerBot();
-    void apply(CUserCmd* pCmd);
+    void CreateMove(CUserCmd* pCmd);
+    bool CanHitTarget(C_CSPlayer *LocalPlayer, C_CSPlayer *TargetEntity, C_BaseCombatWeapon *weapon, CUserCmd *pCmd);
 protected:
-    float triggerTime = 0.f;
+    void Reset();
+    long triggerTime = 0;
+    C_CSPlayer* triggerTarget = nullptr;
 };
 
 #endif /* TriggerBot_h */

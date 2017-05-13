@@ -36,9 +36,9 @@ struct MatchPathSeparator
 
 class CPatternScanner {
 public:
-    static CPatternScanner* Instance() {
+    static std::shared_ptr<CPatternScanner> Instance() {
         if(!instance) {
-            instance = new CPatternScanner();
+            instance = std::make_unique<CPatternScanner>();
         }
         
         return instance;
@@ -54,7 +54,7 @@ public:
 private:
     void LoadModules();
     std::map<std::string, MemoryModule> loaded_modules;
-    static CPatternScanner* instance;
+    static std::shared_ptr<CPatternScanner> instance;
 };
 
 #define CLIENT_POINTER(bMask, szMask, start) CPatternScanner::Instance()->GetPointer("client.dylib", bMask, szMask, start)

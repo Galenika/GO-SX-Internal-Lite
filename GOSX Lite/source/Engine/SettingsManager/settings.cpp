@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "Engine/MenuManager/menu.h"
 
-std::map<std::string, CSettingsManager*> CSettingsManager::instances = {};
+std::map<std::string, std::shared_ptr<CSettingsManager>> CSettingsManager::instances = {};
 
 CSettingsManager::CSettingsManager(std::string file) {
     std::string iniPath = Functions::DirName(Functions::GetModulePath("gosx.dylib"));

@@ -8,7 +8,7 @@
 
 #include "AutoWalls.h"
 
-CAutoWalls* CAutoWalls::instance = nullptr;
+std::shared_ptr<CAutoWalls> CAutoWalls::instance = nullptr;
 
 CAutoWalls::CAutoWalls() {}
 

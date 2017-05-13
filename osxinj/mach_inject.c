@@ -97,7 +97,7 @@ mach_inject(
 	//	Allocate the code.
 	vm_address_t remoteCode = (vm_address_t)NULL;
 	if( !err )
-		err = vm_allocate( remoteTask, &remoteCode, imageSize, 1 );
+		vm_allocate( remoteTask, &remoteCode, imageSize, 1 );
     err = vm_protect(remoteTask, remoteCode, imageSize, 0, VM_PROT_EXECUTE | VM_PROT_WRITE | VM_PROT_READ);
 	if( !err ) {
 		ASSERT_CAST( pointer_t, image );
@@ -204,7 +204,7 @@ mach_inject(
 		stackContents[0] = 0x00000DEADBEA7DAD; // invalid return address.
 		
 		// push stackContents
-		err = vm_write( remoteTask, remoteStack,
+		vm_write( remoteTask, remoteStack,
                        (pointer_t) stackContents, STACK_CONTENTS_SIZE);
         
 		remoteThreadState.__rdi = (unsigned long long) (imageOffset);

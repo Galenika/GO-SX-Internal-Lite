@@ -9,7 +9,7 @@
 #include "pattern.h"
 #include "SDK/SDK.h"
 
-CPatternScanner* CPatternScanner::instance = nullptr;
+std::shared_ptr<CPatternScanner> CPatternScanner::instance = nullptr;
 
 CPatternScanner::CPatternScanner() {
     LoadModules();
@@ -54,6 +54,7 @@ void CPatternScanner::LoadModules() {
     kern_return_t kr2 = vm_read(current_task(), (vm_address_t)dyldaii->infoArray, dataCnt, &readMem, &dataCnt);
     if (kr2)
     {
+        free(g_dii);
         return;
     }
     struct dyld_image_info *dii = (struct dyld_image_info *) readMem;
@@ -83,6 +84,8 @@ void CPatternScanner::LoadModules() {
         
         loaded_modules[Basename(imageName)] = memoryModule;
     }
+
+    free(g_dii);
 }
 
 bool CPatternScanner::Compare(const unsigned char* pData, const unsigned char* bMask, const char* szMask)

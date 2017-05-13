@@ -9,7 +9,7 @@
 #include "Esp.h"
 bool showCrosshair = true;
 
-CEsp::CEsp(CDrawings* drawMngr) {
+CEsp::CEsp(std::shared_ptr<CDrawings> drawMngr) {
     DrawManager = drawMngr;
 }
 

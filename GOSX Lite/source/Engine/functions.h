@@ -45,6 +45,20 @@ namespace Functions {
         return v;
     }
 
+    template <class FloatType>
+    int SafeFloatToInt(const FloatType &num) {
+        if (std::numeric_limits<int>::digits < std::numeric_limits<FloatType>::digits) {
+            if((num < static_cast<FloatType>(std::numeric_limits<int>::max())) &&
+               (num > static_cast<FloatType>(std::numeric_limits<int>::min()))) {
+                return static_cast<int>(num);
+            } else {
+                return std::numeric_limits<int>::max();
+            }
+        } else {
+            return static_cast<int>(num);
+        }
+    }
+
     float RandomFloat(float minVal, float maxVal);
     bool IsKeyPressed(unsigned short inKeyCode);
 
@@ -55,7 +69,7 @@ namespace Functions {
     void SetMousePos(int x, int y);
     bool FileExist(std::string fileName);
     std::string DirName(std::string source);
-    long GetEpochTime();
+    long GetTimeStamp();
 }
 
 #endif /* functions_h */

@@ -84,9 +84,10 @@ std::string Functions::DirName(std::string source)
     return source;
 }
 
-long Functions::GetEpochTime()
-{
-    auto duration = std::chrono::system_clock::now().time_since_epoch();
-    
-    return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+long Functions::GetTimeStamp() {
+    timeval time;
+    gettimeofday(&time, NULL);
+    long millis = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+
+    return millis;
 }

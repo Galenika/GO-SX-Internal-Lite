@@ -150,9 +150,9 @@ const std::map<int, const char*> KeyNameForValue = {
 class CHackMenu {
 public:
     CHackMenu();
-    static CHackMenu* Instance() {
+    static std::shared_ptr<CHackMenu> Instance() {
         if(!instance) {
-            instance = new CHackMenu();
+            instance = std::make_unique<CHackMenu>();
         }
 
         return instance;
@@ -189,8 +189,8 @@ private:
     void DrawActiveSelect();
     void DrawKeyField(const char *section, const char *key, int x, int y, int keyValue);
 protected:
-    static CHackMenu* instance;
-    CDrawings* dMgr = nullptr;
+    static std::shared_ptr<CHackMenu> instance;
+    std::shared_ptr<CDrawings> dMgr = nullptr;
     bool MenuOpen = false;
     bool ClickedOnce = false;
     int CursorPosition = 1;

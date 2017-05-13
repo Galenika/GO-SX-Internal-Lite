@@ -15,9 +15,9 @@ public:
 	CDrawings();
 	~CDrawings();
 
-    static CDrawings* Instance() {
+    static std::shared_ptr<CDrawings> Instance() {
         if(!instance) {
-            instance = new CDrawings();
+            instance = std::make_unique<CDrawings>();
         }
 
         return instance;
@@ -43,7 +43,7 @@ public:
     void    CheckFonts();
 
 private:
-    static  CDrawings*  instance;
+    static  std::shared_ptr<CDrawings>  instance;
             HFONT       hFont           = NULL;
             HFONT       bFont           = NULL;
             int         iScreenWidth    = 0;

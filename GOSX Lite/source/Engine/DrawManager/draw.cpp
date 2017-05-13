@@ -8,7 +8,7 @@ enum FontSize {
     BIG
 };
 
-CDrawings* CDrawings::instance = nullptr;
+std::shared_ptr<CDrawings> CDrawings::instance = nullptr;
 
 CDrawings::CDrawings() {
     if(!hFont) {
